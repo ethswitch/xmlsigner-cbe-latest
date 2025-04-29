@@ -48,7 +48,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
     implementation 'com.auth0:java-jwt:4.4.0'
-    implementation 'com.googlecode.xades4j:xades4j:1.7.0'
+    implementation 'com.googlecode.xades4j:xades4j:2.4.0'
     implementation 'org.apache.commons:commons-lang3:3.13.0'
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
 
