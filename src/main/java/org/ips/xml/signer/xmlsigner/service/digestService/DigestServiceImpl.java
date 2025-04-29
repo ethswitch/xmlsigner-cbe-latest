@@ -73,7 +73,7 @@ public class DigestServiceImpl implements DigestService {
              * @apiNote this feature adding is not working with jdk 8 of oracle but working with WAS IBM java 8
              * when this feature is set false it is venerability issues
              */
-            transformerFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+//            transformerFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             Transformer transformer = transformerFactory.newTransformer();
             StringWriter writer = new StringWriter();
             transformer.transform(new DOMSource(doc), new StreamResult(writer));

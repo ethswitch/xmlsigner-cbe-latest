@@ -5,11 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 
 
-
-//@ComponentScan(basePackages = "org.ips.xml.signer.xmlsigner.repository")
 @SpringBootApplication
+@ComponentScan(basePackages = {"org.ips.xml.signer.xmlsigner"})
 public class XmlSignerApplication extends SpringBootServletInitializer {
 
     @Override

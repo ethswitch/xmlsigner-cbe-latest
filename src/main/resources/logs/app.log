@@ -1,308 +1,247 @@
-2025-04-29 10:41:52.978 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-4] POST "/api/digest", parameters={}
-2025-04-29 10:41:52.978 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping [http-nio-9181-exec-4] Mapped to org.ips.xml.signer.xmlsigner.controller.DigestController#handleXmlRequest(String)
-2025-04-29 10:41:52.978 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-9181-exec-4] Read "application/xml;charset=UTF-8" to ["<?xml version="1.0" encoding="UTF-8"?><EOL><EOL><FPEnvelope xmlns="urn:iso:std:iso:20022:tech:xsd:payment_re (truncated)..."]
-2025-04-29 10:41:52.978 INFO  o.i.x.s.x.r.CertificateCacheRepository [http-nio-9181-exec-4]  the file is already loaded ....... trying to bet the bank private key and the catched size is 2
-2025-04-29 10:41:53.010 ERROR o.i.x.s.x.s.d.DigestServiceImpl [http-nio-9181-exec-4] Unsupported TransformerFactory feature: http://apache.org/xml/features/disallow-doctype-decl
-2025-04-29 10:41:53.010 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-9181-exec-4] Using @ExceptionHandler org.ips.xml.signer.xmlsigner.exceptions.GlobalExceptionHandler#handleAllUncaughtException(Exception, WebRequest)
-2025-04-29 10:41:53.010 ERROR GLOBAL_EXCEPTION_HANDLER [http-nio-9181-exec-4] Unknown error occurred
-java.lang.NullPointerException: Cannot invoke "String.replace(java.lang.CharSequence, java.lang.CharSequence)" because "signedXml" is null
-	at org.ips.xml.signer.xmlsigner.service.digestService.DigestServiceImpl.signDocument(DigestServiceImpl.java:60)
-	at org.ips.xml.signer.xmlsigner.controller.DigestController.handleXmlRequest(DigestController.java:52)
+2025-04-29 18:37:58.852 INFO  o.h.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 8.0.1.Final
+2025-04-29 18:37:58.897 INFO  o.i.x.s.x.XmlSignerApplication [main] Starting XmlSignerApplication v0.1 using Java 21.0.7 with PID 1 (/usr/local/tomcat/webapps/xml_signer_v01/WEB-INF/classes started by root in /usr/local/tomcat)
+2025-04-29 18:37:58.899 INFO  o.i.x.s.x.XmlSignerApplication [main] The following 1 profile is active: "dev"
+2025-04-29 18:37:59.691 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 762 ms
+2025-04-29 18:37:59.894 ERROR o.i.x.s.x.r.CertificateCacheRepository [main] Error while loading certificates from keystore
+java.io.FileNotFoundException: /tmp/keystore.jks (No such file or directory)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:213)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:152)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:106)
+	at org.ips.xml.signer.xmlsigner.repository.CertificateCacheRepository.loadCertificatesFromKeystore(CertificateCacheRepository.java:67)
+	at org.ips.xml.signer.xmlsigner.repository.CertificateCacheRepository.init(CertificateCacheRepository.java:60)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
-	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1736)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-2025-04-29 10:41:53.010 DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor [http-nio-9181-exec-4] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
-2025-04-29 10:41:53.010 DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor [http-nio-9181-exec-4] Writing [org.ips.xml.signer.xmlsigner.exceptions.ErrorResponse@1fed40f0]
-2025-04-29 10:41:53.010 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-9181-exec-4] Resolved [java.lang.NullPointerException: Cannot invoke "String.replace(java.lang.CharSequence, java.lang.CharSequence)" because "signedXml" is null]
-2025-04-29 10:41:53.010 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-4] Completed 500 INTERNAL_SERVER_ERROR
-2025-04-29 10:57:05.879 INFO  o.h.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 8.0.1.Final
-2025-04-29 10:57:05.915 INFO  o.i.x.s.x.XmlSignerApplication [main] Starting XmlSignerApplication using Java 21.0.3 with PID 22884 (C:\ethswitch\codes\signer\cbe_signer\xmlsigner-cbe-latest\build\classes\java\main started by hp in C:\ethswitch\codes\signer\cbe_signer\xmlsigner-cbe-latest)
-2025-04-29 10:57:05.916 INFO  o.i.x.s.x.XmlSignerApplication [main] The following 1 profile is active: "dev"
-2025-04-29 10:57:06.805 INFO  o.s.b.w.e.tomcat.TomcatWebServer [main] Tomcat initialized with port 9181 (http)
-2025-04-29 10:57:06.813 INFO  o.a.coyote.http11.Http11NioProtocol [main] Initializing ProtocolHandler ["http-nio-9181"]
-2025-04-29 10:57:06.815 INFO  o.a.catalina.core.StandardService [main] Starting service [Tomcat]
-2025-04-29 10:57:06.815 INFO  o.a.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-04-29 10:57:06.865 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
-2025-04-29 10:57:06.865 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 913 ms
-2025-04-29 10:57:06.943 INFO  o.i.x.s.x.r.CertificateCacheRepository [main]  the path to the keystore is :C:/etswitch/national_payment_gateway/certs/keys/participants/wegagen/keystore1.jks
-2025-04-29 10:57:06.943 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] found  key file and there are  java.util.Hashtable$Enumerator@670b3ca
-2025-04-29 10:57:06.943 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] catching certificate for   423714158916038225117618563593098199125983259
-2025-04-29 10:57:06.943 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] catching certificate for   cbetetaa
-2025-04-29 10:57:06.943 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] Keystore provider: SUN
-2025-04-29 10:57:06.944 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] Successfully loaded private key for alias: cbetetaa
-2025-04-29 10:57:07.313 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping [main] 5 mappings in 'requestMappingHandlerMapping'
-2025-04-29 10:57:07.329 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
-2025-04-29 10:57:07.350 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
-2025-04-29 10:57:07.373 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
-2025-04-29 10:57:07.409 INFO  o.a.coyote.http11.Http11NioProtocol [main] Starting ProtocolHandler ["http-nio-9181"]
-2025-04-29 10:57:07.430 INFO  o.s.b.w.e.tomcat.TomcatWebServer [main] Tomcat started on port 9181 (http) with context path ''
-2025-04-29 10:57:07.436 INFO  o.i.x.s.x.XmlSignerApplication [main] Started XmlSignerApplication in 1.963 seconds (process running for 2.244)
-2025-04-29 10:59:39.370 INFO  o.h.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 8.0.1.Final
-2025-04-29 10:59:39.413 INFO  o.i.x.s.x.XmlSignerApplication [main] Starting XmlSignerApplication using Java 21.0.3 with PID 24568 (C:\ethswitch\codes\signer\cbe_signer\xmlsigner-cbe-latest\build\classes\java\main started by hp in C:\ethswitch\codes\signer\cbe_signer\xmlsigner-cbe-latest)
-2025-04-29 10:59:39.413 INFO  o.i.x.s.x.XmlSignerApplication [main] The following 1 profile is active: "dev"
-2025-04-29 10:59:40.246 INFO  o.s.b.w.e.tomcat.TomcatWebServer [main] Tomcat initialized with port 9181 (http)
-2025-04-29 10:59:40.255 INFO  o.a.coyote.http11.Http11NioProtocol [main] Initializing ProtocolHandler ["http-nio-9181"]
-2025-04-29 10:59:40.257 INFO  o.a.catalina.core.StandardService [main] Starting service [Tomcat]
-2025-04-29 10:59:40.257 INFO  o.a.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-04-29 10:59:40.315 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
-2025-04-29 10:59:40.315 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 868 ms
-2025-04-29 10:59:40.393 INFO  o.i.x.s.x.r.CertificateCacheRepository [main]  the path to the keystore is :C:/etswitch/national_payment_gateway/certs/keys/participants/wegagen/keystore1.jks
-2025-04-29 10:59:40.393 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] found  key file and there are  java.util.Hashtable$Enumerator@7ff8a9dc
-2025-04-29 10:59:40.393 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] catching certificate for   423714158916038225117618563593098199125983259
-2025-04-29 10:59:40.393 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] catching certificate for   cbetetaa
-2025-04-29 10:59:40.393 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] Keystore provider: SUN
-2025-04-29 10:59:40.394 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] Successfully loaded private key for alias: cbetetaa
-2025-04-29 10:59:40.816 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping [main] 5 mappings in 'requestMappingHandlerMapping'
-2025-04-29 10:59:40.832 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
-2025-04-29 10:59:40.853 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
-2025-04-29 10:59:40.876 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
-2025-04-29 10:59:40.908 INFO  o.a.coyote.http11.Http11NioProtocol [main] Starting ProtocolHandler ["http-nio-9181"]
-2025-04-29 10:59:40.926 INFO  o.s.b.w.e.tomcat.TomcatWebServer [main] Tomcat started on port 9181 (http) with context path ''
-2025-04-29 10:59:40.932 INFO  o.i.x.s.x.XmlSignerApplication [main] Started XmlSignerApplication in 2.02 seconds (process running for 2.445)
-2025-04-29 11:02:43.957 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [http-nio-9181-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-04-29 11:02:43.957 INFO  o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Initializing Servlet 'dispatcherServlet'
-2025-04-29 11:02:43.957 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Detected StandardServletMultipartResolver
-2025-04-29 11:02:43.957 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Detected AcceptHeaderLocaleResolver
-2025-04-29 11:02:43.957 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Detected FixedThemeResolver
-2025-04-29 11:02:43.960 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@2edce9a1
-2025-04-29 11:02:43.961 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Detected org.springframework.web.servlet.support.SessionFlashMapManager@4c797480
-2025-04-29 11:02:43.961 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
-2025-04-29 11:02:43.961 INFO  o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Completed initialization in 4 ms
-2025-04-29 11:02:43.968 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] POST "/api/digest", parameters={}
-2025-04-29 11:02:43.978 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping [http-nio-9181-exec-1] Mapped to org.ips.xml.signer.xmlsigner.controller.DigestController#handleXmlRequest(String)
-2025-04-29 11:02:43.995 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-9181-exec-1] Read "application/xml;charset=UTF-8" to ["<?xml version="1.0" encoding="UTF-8"?><EOL><EOL><FPEnvelope xmlns="urn:iso:std:iso:20022:tech:xsd:payment_re (truncated)..."]
-2025-04-29 11:02:44.017 INFO  o.i.x.s.x.r.CertificateCacheRepository [http-nio-9181-exec-1]  the file is already loaded ....... trying to bet the bank private key and the catched size is 2
-2025-04-29 11:02:44.353 ERROR o.i.x.s.x.s.d.DigestServiceImpl [http-nio-9181-exec-1] Unsupported TransformerFactory feature: http://apache.org/xml/features/disallow-doctype-decl
-2025-04-29 11:02:44.357 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-9181-exec-1] Using @ExceptionHandler org.ips.xml.signer.xmlsigner.exceptions.GlobalExceptionHandler#handleAllUncaughtException(Exception, WebRequest)
-2025-04-29 11:02:44.358 ERROR GLOBAL_EXCEPTION_HANDLER [http-nio-9181-exec-1] Unknown error occurred
-java.lang.NullPointerException: Cannot invoke "String.replace(java.lang.CharSequence, java.lang.CharSequence)" because "signedXml" is null
-	at org.ips.xml.signer.xmlsigner.service.digestService.DigestServiceImpl.signDocument(DigestServiceImpl.java:60)
-	at org.ips.xml.signer.xmlsigner.controller.DigestController.handleXmlRequest(DigestController.java:52)
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor$LifecycleMethod.invoke(InitDestroyAnnotationBeanPostProcessor.java:457)
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor$LifecycleMetadata.invokeInitMethods(InitDestroyAnnotationBeanPostProcessor.java:401)
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor.postProcessBeforeInitialization(InitDestroyAnnotationBeanPostProcessor.java:219)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInitialization(AbstractAutowireCapableBeanFactory.java:422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1778)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1419)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1355)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1192)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1355)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1192)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:962)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.web.servlet.support.SpringBootServletInitializer.run(SpringBootServletInitializer.java:174)
+	at org.springframework.boot.web.servlet.support.SpringBootServletInitializer.createRootApplicationContext(SpringBootServletInitializer.java:154)
+	at org.springframework.boot.web.servlet.support.SpringBootServletInitializer.onStartup(SpringBootServletInitializer.java:96)
+	at org.springframework.web.SpringServletContainerInitializer.onStartup(SpringServletContainerInitializer.java:171)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4464)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:599)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:571)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:654)
+	at org.apache.catalina.startup.HostConfig.deployWAR(HostConfig.java:964)
+	at org.apache.catalina.startup.HostConfig$DeployWar.run(HostConfig.java:1902)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:123)
+	at org.apache.catalina.startup.HostConfig.deployWARs(HostConfig.java:769)
+	at org.apache.catalina.startup.HostConfig.deployApps(HostConfig.java:420)
+	at org.apache.catalina.startup.HostConfig.start(HostConfig.java:1620)
+	at org.apache.catalina.startup.HostConfig.lifecycleEvent(HostConfig.java:303)
+	at org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(LifecycleBase.java:109)
+	at org.apache.catalina.util.LifecycleBase.setStateInternal(LifecycleBase.java:389)
+	at org.apache.catalina.util.LifecycleBase.setState(LifecycleBase.java:336)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:776)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:772)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:203)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:412)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:870)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.startup.Catalina.start(Catalina.java:761)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
-	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1736)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-2025-04-29 11:02:44.397 DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor [http-nio-9181-exec-1] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
-2025-04-29 11:02:44.399 DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor [http-nio-9181-exec-1] Writing [org.ips.xml.signer.xmlsigner.exceptions.ErrorResponse@5b2da3f1]
-2025-04-29 11:02:44.413 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-9181-exec-1] Resolved [java.lang.NullPointerException: Cannot invoke "String.replace(java.lang.CharSequence, java.lang.CharSequence)" because "signedXml" is null]
-2025-04-29 11:02:44.413 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Completed 500 INTERNAL_SERVER_ERROR
-2025-04-29 11:08:12.105 INFO  o.h.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 8.0.1.Final
-2025-04-29 11:08:12.146 INFO  o.i.x.s.x.XmlSignerApplication [main] Starting XmlSignerApplication using Java 21.0.3 with PID 16428 (C:\ethswitch\codes\signer\cbe_signer\xmlsigner-cbe-latest\build\classes\java\main started by hp in C:\ethswitch\codes\signer\cbe_signer\xmlsigner-cbe-latest)
-2025-04-29 11:08:12.146 INFO  o.i.x.s.x.XmlSignerApplication [main] The following 1 profile is active: "dev"
-2025-04-29 11:08:13.056 INFO  o.s.b.w.e.tomcat.TomcatWebServer [main] Tomcat initialized with port 9181 (http)
-2025-04-29 11:08:13.072 INFO  o.a.coyote.http11.Http11NioProtocol [main] Initializing ProtocolHandler ["http-nio-9181"]
-2025-04-29 11:08:13.072 INFO  o.a.catalina.core.StandardService [main] Starting service [Tomcat]
-2025-04-29 11:08:13.072 INFO  o.a.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-04-29 11:08:13.127 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
-2025-04-29 11:08:13.127 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 943 ms
-2025-04-29 11:08:13.231 INFO  o.i.x.s.x.r.CertificateCacheRepository [main]  the path to the keystore is :C:/etswitch/national_payment_gateway/certs/keys/participants/wegagen/keystore1.jks
-2025-04-29 11:08:13.231 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] found  key file and there are  java.util.Hashtable$Enumerator@d3f4505
-2025-04-29 11:08:13.231 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] catching certificate for   423714158916038225117618563593098199125983259
-2025-04-29 11:08:13.231 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] catching certificate for   cbetetaa
-2025-04-29 11:08:13.231 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] Keystore provider: SUN
-2025-04-29 11:08:13.231 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] Successfully loaded private key for alias: cbetetaa
-2025-04-29 11:08:13.619 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping [main] 5 mappings in 'requestMappingHandlerMapping'
-2025-04-29 11:08:13.627 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
-2025-04-29 11:08:13.643 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
-2025-04-29 11:08:13.675 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
-2025-04-29 11:08:13.716 INFO  o.a.coyote.http11.Http11NioProtocol [main] Starting ProtocolHandler ["http-nio-9181"]
-2025-04-29 11:08:13.727 INFO  o.s.b.w.e.tomcat.TomcatWebServer [main] Tomcat started on port 9181 (http) with context path ''
-2025-04-29 11:08:13.743 INFO  o.i.x.s.x.XmlSignerApplication [main] Started XmlSignerApplication in 2.126 seconds (process running for 2.635)
-2025-04-29 11:10:23.142 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [http-nio-9181-exec-2] Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-04-29 11:10:23.142 INFO  o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-2] Initializing Servlet 'dispatcherServlet'
-2025-04-29 11:10:23.142 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-2] Detected StandardServletMultipartResolver
-2025-04-29 11:10:23.142 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-2] Detected AcceptHeaderLocaleResolver
-2025-04-29 11:10:23.142 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-2] Detected FixedThemeResolver
-2025-04-29 11:10:23.142 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-2] Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@57e860a
-2025-04-29 11:10:23.142 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-2] Detected org.springframework.web.servlet.support.SessionFlashMapManager@601e0b1a
-2025-04-29 11:10:23.142 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-2] enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
-2025-04-29 11:10:23.142 INFO  o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-2] Completed initialization in 0 ms
-2025-04-29 11:10:23.151 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-2] POST "/api/digest", parameters={}
-2025-04-29 11:10:23.151 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping [http-nio-9181-exec-2] Mapped to org.ips.xml.signer.xmlsigner.controller.DigestController#handleXmlRequest(String)
-2025-04-29 11:10:23.177 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-9181-exec-2] Read "application/xml;charset=UTF-8" to ["<?xml version="1.0" encoding="UTF-8"?><EOL><EOL><FPEnvelope xmlns="urn:iso:std:iso:20022:tech:xsd:payment_re (truncated)..."]
-2025-04-29 11:10:33.099 INFO  o.i.x.s.x.r.CertificateCacheRepository [http-nio-9181-exec-2]  the file is already loaded ....... trying to bet the bank private key and the catched size is 2
-2025-04-29 11:12:39.529 ERROR o.i.x.s.x.s.d.DigestServiceImpl [http-nio-9181-exec-2] Unsupported TransformerFactory feature: http://apache.org/xml/features/disallow-doctype-decl
-2025-04-29 11:12:53.813 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-9181-exec-2] Using @ExceptionHandler org.ips.xml.signer.xmlsigner.exceptions.GlobalExceptionHandler#handleAllUncaughtException(Exception, WebRequest)
-2025-04-29 11:12:53.813 ERROR GLOBAL_EXCEPTION_HANDLER [http-nio-9181-exec-2] Unknown error occurred
-java.lang.NullPointerException: Cannot invoke "String.replace(java.lang.CharSequence, java.lang.CharSequence)" because "signedXml" is null
-	at org.ips.xml.signer.xmlsigner.service.digestService.DigestServiceImpl.signDocument(DigestServiceImpl.java:60)
-	at org.ips.xml.signer.xmlsigner.controller.DigestController.handleXmlRequest(DigestController.java:52)
+	at org.apache.catalina.startup.Bootstrap.start(Bootstrap.java:345)
+	at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:476)
+2025-04-29 18:37:59.899 WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext [main] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'digestController' defined in file [/usr/local/tomcat/webapps/xml_signer_v01/WEB-INF/classes/org/ips/xml/signer/xmlsigner/controller/DigestController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'digestServiceImpl' defined in file [/usr/local/tomcat/webapps/xml_signer_v01/WEB-INF/classes/org/ips/xml/signer/xmlsigner/service/digestService/DigestServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'XMLFileUtility': Unsatisfied dependency expressed through field 'cacheRepository': Error creating bean with name 'certificateCacheRepository': Invocation of init method failed
+2025-04-29 18:37:59.910 INFO  o.s.b.a.l.ConditionEvaluationReportLogger [main] 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-04-29 18:37:59.932 ERROR o.s.boot.SpringApplication [main] Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'digestController' defined in file [/usr/local/tomcat/webapps/xml_signer_v01/WEB-INF/classes/org/ips/xml/signer/xmlsigner/controller/DigestController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'digestServiceImpl' defined in file [/usr/local/tomcat/webapps/xml_signer_v01/WEB-INF/classes/org/ips/xml/signer/xmlsigner/service/digestService/DigestServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'XMLFileUtility': Unsatisfied dependency expressed through field 'cacheRepository': Error creating bean with name 'certificateCacheRepository': Invocation of init method failed
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1355)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1192)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:962)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.web.servlet.support.SpringBootServletInitializer.run(SpringBootServletInitializer.java:174)
+	at org.springframework.boot.web.servlet.support.SpringBootServletInitializer.createRootApplicationContext(SpringBootServletInitializer.java:154)
+	at org.springframework.boot.web.servlet.support.SpringBootServletInitializer.onStartup(SpringBootServletInitializer.java:96)
+	at org.springframework.web.SpringServletContainerInitializer.onStartup(SpringServletContainerInitializer.java:171)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4464)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:599)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:571)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:654)
+	at org.apache.catalina.startup.HostConfig.deployWAR(HostConfig.java:964)
+	at org.apache.catalina.startup.HostConfig$DeployWar.run(HostConfig.java:1902)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:123)
+	at org.apache.catalina.startup.HostConfig.deployWARs(HostConfig.java:769)
+	at org.apache.catalina.startup.HostConfig.deployApps(HostConfig.java:420)
+	at org.apache.catalina.startup.HostConfig.start(HostConfig.java:1620)
+	at org.apache.catalina.startup.HostConfig.lifecycleEvent(HostConfig.java:303)
+	at org.apache.catalina.util.LifecycleBase.fireLifecycleEvent(LifecycleBase.java:109)
+	at org.apache.catalina.util.LifecycleBase.setStateInternal(LifecycleBase.java:389)
+	at org.apache.catalina.util.LifecycleBase.setState(LifecycleBase.java:336)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:776)
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:772)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203)
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145)
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749)
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:203)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:412)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:870)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164)
+	at org.apache.catalina.startup.Catalina.start(Catalina.java:761)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255)
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188)
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926)
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831)
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
-	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
-	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1736)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-2025-04-29 11:12:53.856 DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor [http-nio-9181-exec-2] Using 'application/json', given [*/*] and supported [application/json, application/*+json]
-2025-04-29 11:12:53.856 DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor [http-nio-9181-exec-2] Writing [org.ips.xml.signer.xmlsigner.exceptions.ErrorResponse@3a61f11f]
-2025-04-29 11:12:53.888 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-9181-exec-2] Resolved [java.lang.NullPointerException: Cannot invoke "String.replace(java.lang.CharSequence, java.lang.CharSequence)" because "signedXml" is null]
-2025-04-29 11:12:53.888 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-2] Completed 500 INTERNAL_SERVER_ERROR
-2025-04-29 11:13:32.747 INFO  o.h.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 8.0.1.Final
-2025-04-29 11:13:32.796 INFO  o.i.x.s.x.XmlSignerApplication [main] Starting XmlSignerApplication using Java 21.0.3 with PID 28324 (C:\ethswitch\codes\signer\cbe_signer\xmlsigner-cbe-latest\build\classes\java\main started by hp in C:\ethswitch\codes\signer\cbe_signer\xmlsigner-cbe-latest)
-2025-04-29 11:13:32.796 INFO  o.i.x.s.x.XmlSignerApplication [main] The following 1 profile is active: "dev"
-2025-04-29 11:13:33.756 INFO  o.s.b.w.e.tomcat.TomcatWebServer [main] Tomcat initialized with port 9181 (http)
-2025-04-29 11:13:33.764 INFO  o.a.coyote.http11.Http11NioProtocol [main] Initializing ProtocolHandler ["http-nio-9181"]
-2025-04-29 11:13:33.766 INFO  o.a.catalina.core.StandardService [main] Starting service [Tomcat]
-2025-04-29 11:13:33.766 INFO  o.a.catalina.core.StandardEngine [main] Starting Servlet engine: [Apache Tomcat/10.1.20]
-2025-04-29 11:13:33.824 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [main] Initializing Spring embedded WebApplicationContext
-2025-04-29 11:13:33.824 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 987 ms
-2025-04-29 11:13:33.911 INFO  o.i.x.s.x.r.CertificateCacheRepository [main]  the path to the keystore is :C:/etswitch/national_payment_gateway/certs/keys/participants/wegagen/keystore1.jks
-2025-04-29 11:13:33.911 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] found  key file and there are  java.util.Hashtable$Enumerator@5e1dde44
-2025-04-29 11:13:33.911 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] catching certificate for   423714158916038225117618563593098199125983259
-2025-04-29 11:13:33.911 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] catching certificate for   cbetetaa
-2025-04-29 11:13:33.911 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] Keystore provider: SUN
-2025-04-29 11:13:33.912 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] Successfully loaded private key for alias: cbetetaa
-2025-04-29 11:13:34.298 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping [main] 5 mappings in 'requestMappingHandlerMapping'
-2025-04-29 11:13:34.312 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
-2025-04-29 11:13:34.334 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
-2025-04-29 11:13:34.359 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
-2025-04-29 11:13:34.388 INFO  o.a.coyote.http11.Http11NioProtocol [main] Starting ProtocolHandler ["http-nio-9181"]
-2025-04-29 11:13:34.405 INFO  o.s.b.w.e.tomcat.TomcatWebServer [main] Tomcat started on port 9181 (http) with context path ''
-2025-04-29 11:13:34.409 INFO  o.i.x.s.x.XmlSignerApplication [main] Started XmlSignerApplication in 2.126 seconds (process running for 2.486)
-2025-04-29 11:13:51.545 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [http-nio-9181-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-04-29 11:13:51.545 INFO  o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Initializing Servlet 'dispatcherServlet'
-2025-04-29 11:13:51.545 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Detected StandardServletMultipartResolver
-2025-04-29 11:13:51.545 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Detected AcceptHeaderLocaleResolver
-2025-04-29 11:13:51.545 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Detected FixedThemeResolver
-2025-04-29 11:13:51.546 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@7593b956
-2025-04-29 11:13:51.546 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Detected org.springframework.web.servlet.support.SessionFlashMapManager@721ec8a6
-2025-04-29 11:13:51.546 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
-2025-04-29 11:13:51.546 INFO  o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Completed initialization in 1 ms
-2025-04-29 11:13:51.554 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] POST "/api/digest", parameters={}
-2025-04-29 11:13:51.560 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping [http-nio-9181-exec-1] Mapped to org.ips.xml.signer.xmlsigner.controller.DigestController#handleXmlRequest(String)
-2025-04-29 11:13:51.574 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-9181-exec-1] Read "application/xml;charset=UTF-8" to ["<?xml version="1.0" encoding="UTF-8"?><EOL><EOL><FPEnvelope xmlns="urn:iso:std:iso:20022:tech:xsd:payment_re (truncated)..."]
-2025-04-29 11:13:51.588 INFO  o.i.x.s.x.r.CertificateCacheRepository [http-nio-9181-exec-1]  the file is already loaded ....... trying to bet the bank private key and the catched size is 2
-2025-04-29 11:13:51.855 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-9181-exec-1] Using 'application/xml', given [*/*] and supported [application/xml, */*]
-2025-04-29 11:13:51.855 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-9181-exec-1] Writing ["<?xml version="1.0" encoding="UTF-8"?><FPEnvelope xmlns="urn:iso:std:iso:20022:tech:xsd:payment_resp (truncated)..."]
-2025-04-29 11:13:51.859 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-9181-exec-1] Completed 200 OK
+	at org.apache.catalina.startup.Bootstrap.start(Bootstrap.java:345)
+	at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:476)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'digestServiceImpl' defined in file [/usr/local/tomcat/webapps/xml_signer_v01/WEB-INF/classes/org/ips/xml/signer/xmlsigner/service/digestService/DigestServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'XMLFileUtility': Unsatisfied dependency expressed through field 'cacheRepository': Error creating bean with name 'certificateCacheRepository': Invocation of init method failed
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1355)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1192)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 58 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'XMLFileUtility': Unsatisfied dependency expressed through field 'cacheRepository': Error creating bean with name 'certificateCacheRepository': Invocation of init method failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1419)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 72 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'certificateCacheRepository': Invocation of init method failed
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor.postProcessBeforeInitialization(InitDestroyAnnotationBeanPostProcessor.java:222)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInitialization(AbstractAutowireCapableBeanFactory.java:422)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1778)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 87 common frames omitted
+Caused by: org.ips.xml.signer.xmlsigner.repository.CertificateCacheRepository$CertificateCacheException: Error while loading certificates from keystore
+	at org.ips.xml.signer.xmlsigner.repository.CertificateCacheRepository.loadCertificatesFromKeystore(CertificateCacheRepository.java:91)
+	at org.ips.xml.signer.xmlsigner.repository.CertificateCacheRepository.init(CertificateCacheRepository.java:60)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor$LifecycleMethod.invoke(InitDestroyAnnotationBeanPostProcessor.java:457)
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor$LifecycleMetadata.invokeInitMethods(InitDestroyAnnotationBeanPostProcessor.java:401)
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor.postProcessBeforeInitialization(InitDestroyAnnotationBeanPostProcessor.java:219)
+	... 99 common frames omitted
+Caused by: java.io.FileNotFoundException: /tmp/keystore.jks (No such file or directory)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:213)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:152)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:106)
+	at org.ips.xml.signer.xmlsigner.repository.CertificateCacheRepository.loadCertificatesFromKeystore(CertificateCacheRepository.java:67)
+	... 105 common frames omitted

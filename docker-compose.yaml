@@ -1,15 +1,12 @@
 version: "3.8"
+
 services:
-  springboot-war-app:
-    image: your-image-name
-    container_name: springboot-war-app
+  app:
+    build: .
+    image: take2018/xml-signer-app:0.1
+    container_name: cbe-xml-signer
     ports:
-      - "8080:9181"
+      - "8080:8080"
     volumes:
-      - /opt/pki/Cert/keystore1.jks:/config/keystore.jks:ro
-      - /var/log/app.log:/logs/app.log
-    environment:
-      - JAVA_OPTS=-Dserver.port=9181 \
-        -Djavax.net.ssl.keyStore=/config/keystore.jks \
-        -Djavax.net.ssl.keyStorePassword=changeit \
-        -Dlogging.file.name=/logs/app.log
+      - C:/etswitch/national_payment_gateway/certs/keys/participants/wegagen/keystore1.jks:/config/keystore.jks:ro
+      - C:/ethswitch/codes/signer/cbe_signer/xmlsigner-cbe-latest/src/main/resources/logs/:/logs
