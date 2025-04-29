@@ -245,3 +245,47 @@ Caused by: java.io.FileNotFoundException: /tmp/keystore.jks (No such file or dir
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:106)
 	at org.ips.xml.signer.xmlsigner.repository.CertificateCacheRepository.loadCertificatesFromKeystore(CertificateCacheRepository.java:67)
 	... 105 common frames omitted
+2025-04-29 18:45:16.257 INFO  o.h.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 8.0.1.Final
+2025-04-29 18:45:16.306 INFO  o.i.x.s.x.XmlSignerApplication [main] Starting XmlSignerApplication v0.1 using Java 21.0.7 with PID 1 (/usr/local/tomcat/webapps/xml_signer_v01/WEB-INF/classes started by root in /usr/local/tomcat)
+2025-04-29 18:45:16.307 INFO  o.i.x.s.x.XmlSignerApplication [main] The following 1 profile is active: "dev"
+2025-04-29 18:45:17.267 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 935 ms
+2025-04-29 18:45:17.561 INFO  o.i.x.s.x.r.CertificateCacheRepository [main]  the path to the keystore is :/config/keystore.jks
+2025-04-29 18:45:17.561 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] found  key file and there are  java.util.Hashtable$Enumerator@2e6c750d
+2025-04-29 18:45:17.562 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] catching certificate for   423714158916038225117618563593098199125983259
+2025-04-29 18:45:17.563 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] catching certificate for   cbetetaa
+2025-04-29 18:45:17.563 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] Keystore provider: SUN
+2025-04-29 18:45:17.567 INFO  o.i.x.s.x.r.CertificateCacheRepository [main] Successfully loaded private key for alias: cbetetaa
+2025-04-29 18:45:18.225 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping [main] 5 mappings in 'requestMappingHandlerMapping'
+2025-04-29 18:45:18.255 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [main] Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-04-29 18:45:18.299 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter [main] ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-04-29 18:45:18.341 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [main] ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-04-29 18:45:18.430 INFO  o.i.x.s.x.XmlSignerApplication [main] Started XmlSignerApplication in 2.701 seconds (process running for 6.992)
+2025-04-29 18:46:00.601 INFO  o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-7] Initializing Servlet 'dispatcherServlet'
+2025-04-29 18:46:00.602 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-7] Detected StandardServletMultipartResolver
+2025-04-29 18:46:00.603 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-7] Detected AcceptHeaderLocaleResolver
+2025-04-29 18:46:00.604 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-7] Detected FixedThemeResolver
+2025-04-29 18:46:00.605 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-7] Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@24ef4f11
+2025-04-29 18:46:00.607 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-7] Detected org.springframework.web.servlet.support.SessionFlashMapManager@cba841f
+2025-04-29 18:46:00.608 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-7] enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-04-29 18:46:00.609 INFO  o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-7] Completed initialization in 7 ms
+2025-04-29 18:46:00.621 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-7] POST "/xml_signer_v01/api/digest", parameters={}
+2025-04-29 18:46:00.638 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping [http-nio-8080-exec-7] Mapped to org.ips.xml.signer.xmlsigner.controller.DigestController#handleXmlRequest(String)
+2025-04-29 18:46:00.666 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-8080-exec-7] Read "application/xml;charset=UTF-8" to ["<?xml version="1.0" encoding="UTF-8"?><EOL><EOL><FPEnvelope xmlns="urn:iso:std:iso:20022:tech:xsd:payment_re (truncated)..."]
+2025-04-29 18:46:00.697 INFO  o.i.x.s.x.r.CertificateCacheRepository [http-nio-8080-exec-7]  the file is already loaded ....... trying to bet the bank private key and the catched size is 2
+2025-04-29 18:46:01.058 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-8080-exec-7] Using 'application/xml', given [*/*] and supported [application/xml, */*]
+2025-04-29 18:46:01.060 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-8080-exec-7] Writing ["<?xml version="1.0" encoding="UTF-8"?><FPEnvelope xmlns="urn:iso:std:iso:20022:tech:xsd:payment_resp (truncated)..."]
+2025-04-29 18:46:01.065 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-7] Completed 200 OK
+2025-04-29 18:47:24.126 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-1] POST "/xml_signer_v01/api/verify", parameters={}
+2025-04-29 18:47:24.128 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping [http-nio-8080-exec-1] Mapped to org.ips.xml.signer.xmlsigner.controller.MessageDigestVerificationController#verifyXml(String)
+2025-04-29 18:47:24.129 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-8080-exec-1] Read "application/xml;charset=UTF-8" to ["<?xml version="1.0" encoding="UTF-8"?><FPEnvelope xmlns="urn:iso:std:iso:20022:tech:xsd:payment_resp (truncated)..."]
+2025-04-29 18:47:24.148 INFO  o.i.x.s.x.r.CertificateCacheRepository [http-nio-8080-exec-1]  the file is already loaded ....... trying to bet the bank private key and the catched size is 2
+2025-04-29 18:47:24.166 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-8080-exec-1] Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2025-04-29 18:47:24.167 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-8080-exec-1] Writing ["true"]
+2025-04-29 18:47:24.169 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-1] Completed 200 OK
+2025-04-29 18:47:29.944 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-3] POST "/xml_signer_v01/api/verify", parameters={}
+2025-04-29 18:47:29.946 DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping [http-nio-8080-exec-3] Mapped to org.ips.xml.signer.xmlsigner.controller.MessageDigestVerificationController#verifyXml(String)
+2025-04-29 18:47:29.947 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-8080-exec-3] Read "application/xml;charset=UTF-8" to ["<?xml version="1.0" encoding="UTF-8"?><FPEnvelope xmlns="urn:iso:std:iso:20022:tech:xsd:payment_resp (truncated)..."]
+2025-04-29 18:47:29.964 INFO  o.i.x.s.x.r.CertificateCacheRepository [http-nio-8080-exec-3]  the file is already loaded ....... trying to bet the bank private key and the catched size is 2
+2025-04-29 18:47:29.972 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-8080-exec-3] Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2025-04-29 18:47:29.974 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-8080-exec-3] Writing ["true"]
+2025-04-29 18:47:29.975 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-3] Completed 200 OK
