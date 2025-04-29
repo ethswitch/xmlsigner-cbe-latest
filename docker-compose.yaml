@@ -7,6 +7,19 @@ services:
     container_name: cbe-xml-signer
     ports:
       - "8080:8080"
+    environment:
+      ETS_IPS_SERVER_URL: http://192.168.20.45:9001
+      ETS_IPS_CERTIFICATE_DOWNLOAD_URL: http://192.168.20.45:9001/v1/cert
+      ETS_IPS_TOKEN_URL: http://192.168.20.45:9001/v1/token
+      ETS_EPG_ACS_CERTIFICATE_ALIAS: ets_acs
+      SECURITY_PKI_KEYSTORE_FILE_LOCATION: /config/keystore.jks
+      SECURITY_PKI_KEYSTORE_FILE_STORE_PASSWORD: wegagen123
+      SECURITY_PKI_KEYSTORE_FILE_KEY_PASSWORD: wegagen123
+      SECURITY_PKI_KEYSTORE_TYPE: JKS
+      SPRING_REDIS_TIMETOLIVE: 1000
+      ETS_IPS_USERNAME: cbe
+      ETS_IPS_PASSWORD: cbe1
+      ETS_IPS_GRANTTYPE: password
     volumes:
       - C:/etswitch/national_payment_gateway/certs/keys/participants/wegagen/keystore1.jks:/config/keystore.jks:ro
       - C:/ethswitch/codes/signer/cbe_signer/xmlsigner-cbe-latest/src/main/resources/logs/:/logs

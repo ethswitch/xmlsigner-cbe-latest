@@ -289,3 +289,11 @@ Caused by: java.io.FileNotFoundException: /tmp/keystore.jks (No such file or dir
 2025-04-29 18:47:29.972 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-8080-exec-3] Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
 2025-04-29 18:47:29.974 DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor [http-nio-8080-exec-3] Writing ["true"]
 2025-04-29 18:47:29.975 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-3] Completed 200 OK
+2025-04-29 19:46:17.853 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-10] GET "/xml_signer_v01/", parameters={}
+2025-04-29 19:46:18.370 DEBUG o.s.w.s.h.SimpleUrlHandlerMapping [http-nio-8080-exec-10] Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2025-04-29 19:46:18.438 DEBUG o.s.w.s.r.ResourceHttpRequestHandler [http-nio-8080-exec-10] Resource not found
+2025-04-29 19:46:18.725 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-10] Using @ExceptionHandler org.ips.xml.signer.xmlsigner.exceptions.GlobalExceptionHandler#handleException(Exception, WebRequest)
+2025-04-29 19:46:19.652 DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor [http-nio-8080-exec-10] Using 'application/problem+json;q=0.8', given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8, application/signed-exchange;v=b3;q=0.7] and supported [application/problem+json]
+2025-04-29 19:46:19.681 DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor [http-nio-8080-exec-10] Writing [ProblemDetail[type='about:blank', title='Not Found', status=404, detail='No static resource .', inst (truncated)...]
+2025-04-29 19:46:19.717 DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver [http-nio-8080-exec-10] Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .]
+2025-04-29 19:46:19.718 DEBUG o.s.web.servlet.DispatcherServlet [http-nio-8080-exec-10] Completed 404 NOT_FOUND
