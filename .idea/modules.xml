@@ -8,6 +8,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ips-client-v1.iml" filepath="$PROJECT_DIR$/.idea/modules/ips-client-v1.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ips-client-v1.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ips-client-v1.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ips-client-v1.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ips-client-v1.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xmlsigner-cbe-latest.ips-client-v1.iml" filepath="$PROJECT_DIR$/.idea/modules/xmlsigner-cbe-latest.ips-client-v1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xmlsigner-cbe-latest.ips-client-v1.main.iml" filepath="$PROJECT_DIR$/.idea/modules/xmlsigner-cbe-latest.ips-client-v1.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xmlsigner-cbe-latest.ips-client-v1.test.iml" filepath="$PROJECT_DIR$/.idea/modules/xmlsigner-cbe-latest.ips-client-v1.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/xmlsigner_cbe.ips-client-v1.iml" filepath="$PROJECT_DIR$/.idea/modules/xmlsigner_cbe.ips-client-v1.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/xmlsigner_cbe.ips-client-v1.main.iml" filepath="$PROJECT_DIR$/.idea/modules/xmlsigner_cbe.ips-client-v1.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/xmlsigner_cbe.ips-client-v1.test.iml" filepath="$PROJECT_DIR$/.idea/modules/xmlsigner_cbe.ips-client-v1.test.iml" />

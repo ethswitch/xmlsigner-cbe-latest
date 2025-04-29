@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.xmlresolver:xmlresolver:5.2.2" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.xmlresolver" artifactId="xmlresolver" version="5.2.2" baseVersion="5.2.2" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.xmlresolver/xmlresolver/5.2.2/152378e04ba01898847bf38fad5023c7d52f0c9d/xmlresolver-5.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
