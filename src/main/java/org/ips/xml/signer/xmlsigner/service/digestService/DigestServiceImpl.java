@@ -13,6 +13,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -69,6 +70,11 @@ public class DigestServiceImpl implements DigestService {
     private String convertDocumentToString(Document doc) {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+// Restrict access to external DTDs and stylesheets
+            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
             /**
              * @apiNote this feature adding is not working with jdk 8 of oracle but working with WAS IBM java 8
              * when this feature is set false it is venerability issues
