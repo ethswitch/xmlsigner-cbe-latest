@@ -1,5 +1,5 @@
-# Use Tomcat 10.1 with JDK 21 as the base image
-FROM tomcat:10.1.40-jdk21
+# Use Eclipse Temurin JDK 21 as the base image
+FROM eclipse-temurin:21-jdk
 
 # Set environment variables
 ENV JAVA_OPTS="-Dserver.port=9181 \
@@ -7,16 +7,17 @@ ENV JAVA_OPTS="-Dserver.port=9181 \
     -Djavax.net.ssl.keyStorePassword=changeit \
     -Dlogging.file.name=/logs/app.log"
 
+# Create necessary directories
+RUN mkdir -p /config /logs
 
+# Copy the WAR file into the image
+COPY build/libs/ips-client-v1-0.1.war /app/ips-client-v1-0.1.war
 
-# Clean default webapps
-RUN rm -rf /usr/local/tomcat/webapps/*
-
-# Copy your WAR file to Tomcat webapps
-COPY build/libs/ips-client-v1-0.1.war /usr/local/tomcat/webapps/xml_signer_v01.war
+# Set the working directory
+WORKDIR /app
 
 # Expose the application's port
 EXPOSE 9181
 
-# Start Tomcat
-CMD ["catalina.sh", "run"]
+# Run the application
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar ips-client-v1-0.1.war"]

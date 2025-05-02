@@ -6,7 +6,7 @@ services:
     image: take2018/xml-signer-app:0.1
     container_name: cbe-xml-signer
     ports:
-      - "8080:8080"
+      - "8080:9181"
     environment:
       ETS_IPS_SERVER_URL: http://192.168.20.45:9001
       ETS_IPS_CERTIFICATE_DOWNLOAD_URL: http://192.168.20.45:9001/v1/cert
@@ -17,6 +17,8 @@ services:
       SECURITY_PKI_KEYSTORE_FILE_KEY_PASSWORD: wegagen123
       SECURITY_PKI_KEYSTORE_TYPE: JKS
       SPRING_REDIS_TIMETOLIVE: 1000
+      HOME_LOG: /logs/app.log  # Override via Docker Compose
+      SPRING_PROFILES_ACTIVE: docker    # Activate the desired profile
       ETS_IPS_USERNAME: cbe
       ETS_IPS_PASSWORD: cbe1
       ETS_IPS_GRANTTYPE: password

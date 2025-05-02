@@ -12,6 +12,9 @@
     <springProfile name="prod">
         <property name="HOME_LOG" value="/var/log/app.log"/>
     </springProfile>
+    <springProfile name="docker">
+        <property name="HOME_LOG" value="${env.HOME_LOG:-/var/log/app.log}"/>
+    </springProfile>
 
     <!-- Rolling file appender -->
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
