@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.CompletableFuture;
+
 @RestController
 @RequestMapping("/api")
 public class MessageDigestVerificationController {
@@ -22,13 +24,12 @@ public class MessageDigestVerificationController {
     }
 
     @PostMapping(value = "/verify", consumes = MediaType.APPLICATION_XML_VALUE)
-    public String verifyXml(@RequestBody String request) {
+    public CompletableFuture<String> verifyXml(@RequestBody String request) {
         if (!isValidXml(request)) {
-            return HttpStatus.BAD_REQUEST +"Invalid XML input";
+            return CompletableFuture.completedFuture(HttpStatus.BAD_REQUEST + " Invalid XML input");
         }
-        String xmlResponse = digestVerifier.verify(request);
-        xmlResponse = xmlResponse.replace("&#xD;", "");
-        return xmlResponse;
+        return digestVerifier.verifyAsync(request)
+                .thenApply(response -> response.replace("&#xD;", ""));
     }
 
 

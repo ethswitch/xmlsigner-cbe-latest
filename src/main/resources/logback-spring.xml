@@ -1,24 +1,46 @@
 <configuration>
 
     <!-- Define properties per Spring profile -->
+<!--    <springProfile name="dev">-->
+<!--        <property name="HOME_LOG" value="/logs/app.log"/>-->
+<!--    </springProfile>-->
     <springProfile name="dev">
-        <property name="HOME_LOG" value="/logs/app.log"/>
+        <property name="HOME_LOG" value="logs"/>
+        <property name="POD_NAME" value="no_pod"/>
     </springProfile>
-
     <springProfile name="test">
-        <property name="HOME_LOG" value="/var/log/app.log"/>
+        <property name="HOME_LOG" value="/var/log/"/>
+        <property name="POD_NAME" value="no_pod"/>
     </springProfile>
 
     <springProfile name="prod">
-        <property name="HOME_LOG" value="/var/log/app.log"/>
+        <property name="HOME_LOG" value="/var/log/"/>
+        <property name="POD_NAME" value="no_pd"/>
     </springProfile>
     <springProfile name="docker">
-        <property name="HOME_LOG" value="${env.HOME_LOG:-/var/log/app.log}"/>
+        <property name="HOME_LOG" value="${env.HOME_LOG:-/var/log/}"/>
+        <property name="POD_NAME" value="${env.POD_NAME:-unknown-pod}"/>
     </springProfile>
+
+<!--if log stash with elk used uncomment this-->
+    <!--log stash-->
+  <!--  <configuration>
+        <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <destination>logstash:5000</destination>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="LOGSTASH"/>
+        </root>
+    </configuration>-->
+
+
+<!--    end of log stash -->
 
     <!-- Rolling file appender -->
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${HOME_LOG}</file>
+        <file>${HOME_LOG}/app_${POD_NAME}.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>logs/archived/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
@@ -37,9 +59,19 @@
         <appender-ref ref="FILE-ROLLING"/>
     </logger>
 
+    <!-- Add POD_NAME to the MDC context -->
+    <springProfile name="default">
+        <contextListener class="ch.qos.logback.classic.joran.JoranConfigurator">
+            <onStart>
+                <insertFromSystemProperties>
+                    <key>POD_NAME</key>
+                </insertFromSystemProperties>
+            </onStart>
+        </contextListener>
+    </springProfile>
     <!-- Root logger -->
     <root level="INFO">
         <appender-ref ref="FILE-ROLLING"/>
     </root>
 
-</configuration>
+ </configuration>

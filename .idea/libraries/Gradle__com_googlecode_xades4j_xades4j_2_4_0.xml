@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.googlecode.xades4j:xades4j:2.4.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="com.googlecode.xades4j" artifactId="xades4j" version="2.4.0" baseVersion="2.4.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.xades4j/xades4j/2.4.0/d79324b9b51ff5ddec94c790a08954f381dc9178/xades4j-2.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
