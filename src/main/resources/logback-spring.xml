@@ -19,7 +19,7 @@
     </springProfile>
     <springProfile name="docker">
         <property name="HOME_LOG" value="${env.HOME_LOG:-/var/log/}"/>
-        <property name="POD_NAME" value="${env.POD_NAME:-unknown-pod}"/>
+        <property name="POD_NAME" value="${POD_NAME:-unknown-pod}"/>
     </springProfile>
 
 <!--if log stash with elk used uncomment this-->
