@@ -9,8 +9,11 @@ import org.ips.xml.signer.xmlsigner.service.CertificateManager;
 import org.ips.xml.signer.xmlsigner.utils.XMLFileUtility;
 import org.ips.xml.signer.xmlsigner.utils.XmlSignUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
+
+import java.util.concurrent.CompletableFuture;
 
 @Setter
 @Slf4j
@@ -23,7 +26,12 @@ public class XMLDigestVerifierImpl implements XMLDigestVerifier {
     CertificateManager certificateManager;
 
     private XmlSignUtil signUtil;
+    @Async
+    public CompletableFuture<String> verifyAsync(String xmlRequest) {
 
+        String result = verify(xmlRequest);
+        return CompletableFuture.completedFuture(result);
+    }
     @Autowired
     public XMLDigestVerifierImpl(XMLFileUtility xmlFileUtility,  CertificateManager certificateManager, XmlSignUtil signUtil) {
         this.xmlFileUtility = xmlFileUtility;

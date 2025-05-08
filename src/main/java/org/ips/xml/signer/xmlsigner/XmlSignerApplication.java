@@ -6,10 +6,12 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.ips.xml.signer.xmlsigner"})
+@EnableAsync
 public class XmlSignerApplication extends SpringBootServletInitializer {
 
     @Override
