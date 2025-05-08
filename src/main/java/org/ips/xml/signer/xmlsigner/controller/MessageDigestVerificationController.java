@@ -24,12 +24,13 @@ public class MessageDigestVerificationController {
     }
 
     @PostMapping(value = "/verify", consumes = MediaType.APPLICATION_XML_VALUE)
-    public CompletableFuture<String> verifyXml(@RequestBody String request) {
+    public String verifyXml(@RequestBody String request) {
         if (!isValidXml(request)) {
-            return CompletableFuture.completedFuture(HttpStatus.BAD_REQUEST + " Invalid XML input");
+            return HttpStatus.BAD_REQUEST +"Invalid XML input";
         }
-        return digestVerifier.verifyAsync(request)
-                .thenApply(response -> response.replace("&#xD;", ""));
+        String xmlResponse = digestVerifier.verify(request);
+        xmlResponse = xmlResponse.replace("&#xD;", "");
+        return xmlResponse;
     }
 
 
