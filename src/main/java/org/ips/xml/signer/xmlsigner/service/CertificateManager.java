@@ -63,7 +63,6 @@ public class CertificateManager {
                 certeficateInformation.setCertificate(cert.getCertificate());
                 certeficateInformation.setX509Certificate(this.convertBase64StringToCerteficate(cert.getCertificate()));
                 cacheRepository.put(certeficateInformation.getCertificateSerialNumber(), certeficateInformation.getX509Certificate());
-                logger.info(cert.toString());
             }
         } else {
             certeficateInformation.setCertificate(cachedCeretficate.getCertificate());

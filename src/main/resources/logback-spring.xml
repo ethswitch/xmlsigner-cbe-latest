@@ -10,7 +10,9 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${POD_NAME}] %-5level %logger{36} [%thread] %msg%n</pattern>
         </encoder>
     </appender>
-
+    <logger name="org.springframework.web.client.RestTemplate" level="INFO"/>
+    <logger name="org.springframework.web.util.HttpLogging" level="WARN"/>
+    <logger name="org.springframework.http.converter.FormHttpMessageConverter" level="WARN"/>
     <!-- File Appender -->
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${HOME_LOG}/app_${POD_NAME}.log</file>
