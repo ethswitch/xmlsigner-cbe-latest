@@ -54,6 +54,8 @@ spec:
               value: "password"
             - name: THREAD_COUNT
               value: "5"
+            - name: LOG_LEVEL
+              value: INFO
           volumeMounts:
             - name: keystore-volume
               mountPath: /config/keystore.jks
