@@ -1,39 +1,21 @@
-<configuration>
-    <!-- Environment-Specific Properties -->
-    <springProfile name="dev">
-        <property name="HOME_LOG" value="logs"/>
-        <property name="POD_NAME" value="no_pod"/>
-    </springProfile>
+<configuration debug="true">
 
-    <springProfile name="test">
-        <property name="HOME_LOG" value="/var/log/"/>
-        <property name="POD_NAME" value="no_pod"/>
-    </springProfile>
+    <!-- Pull env variable from environment at runtime -->
+    <springProperty name="POD_NAME" source="POD_NAME" defaultValue="unknown-pod"/>
+    <springProperty name="HOME_LOG" source="HOME_LOG" defaultValue="/var/log"/>
 
-    <springProfile name="prod">
-        <property name="HOME_LOG" value="/var/log/"/>
-        <property name="POD_NAME" value="no_pod"/> <!-- Fixed typo -->
-    </springProfile>
-
-    <springProfile name="docker">
-        <property name="HOME_LOG" value="${env.HOME_LOG:-/var/log/}"/>
-        <property name="POD_NAME" value="${env.POD_NAME:-unknown-pod}"/> <!-- Use env var -->
-    </springProfile>
-
-    <!-- Logstash Configuration (when needed) -->
-    <!--
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>logstash:5000</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    <!-- STDOUT Appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${POD_NAME}] %-5level %logger{36} [%thread] %msg%n</pattern>
+        </encoder>
     </appender>
-    -->
 
-    <!-- File Appender with Pod-specific Logs -->
+    <!-- File Appender -->
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${HOME_LOG}/app_${POD_NAME}.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- Include POD_NAME in archived files -->
             <fileNamePattern>${HOME_LOG}/archived/app_${POD_NAME}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <totalSizeCap>20GB</totalSizeCap>
@@ -41,20 +23,19 @@
         </rollingPolicy>
 
         <encoder>
-            <!-- Include POD_NAME in log pattern -->
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${POD_NAME}] %-5level %logger{36} [%thread] %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- Logger Configuration -->
+    <!-- Logger -->
     <logger name="org.multimedia" level="INFO" additivity="false">
         <appender-ref ref="FILE-ROLLING"/>
     </logger>
 
+
     <!-- Root Logger -->
     <root level="INFO">
+        <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE-ROLLING"/>
-        <!-- Uncomment when using Logstash -->
-        <!-- <appender-ref ref="LOGSTASH"/> -->
     </root>
 </configuration>
