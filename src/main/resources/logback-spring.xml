@@ -1,14 +1,41 @@
+<configuration debug="true">
+
+    <!-- Pull env variable from environment at runtime -->
+    <springProperty name="POD_NAME" source="POD_NAME" defaultValue="unknown-pod"/>
+    <springProperty name="HOME_LOG" source="HOME_LOG" defaultValue="/var/log"/>
+
+    <!-- STDOUT Appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${POD_NAME}] %-5level %logger{36} [%thread] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender -->
+    <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}/app_${POD_NAME}.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${HOME_LOG}/archived/app_${POD_NAME}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${POD_NAME}] %-5level %logger{36} [%thread] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Logger -->
+    <logger name="org.multimedia" level="INFO" additivity="false">
+        <appender-ref ref="FILE-ROLLING"/>
+    </logger>
 
 
-    <!--log stash-->
-    <configuration>
-        <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-            <destination>logstash:5000</destination>
-            <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
-        </appender>
-
-        <root level="INFO">
-            <appender-ref ref="LOGSTASH"/>
-        </root>
-    </configuration>
-
+    <!-- Root Logger -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE-ROLLING"/>
+    </root>
+</configuration>

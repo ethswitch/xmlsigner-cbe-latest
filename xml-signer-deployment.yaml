@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xml-signer-app
+  labels:
+    app: xml-signer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xml-signer
+  template:
+    metadata:
+      labels:
+        app: xml-signer
+    spec:
+      containers:
+        - name: xml-signer
+          image: take2018/xml-signer-app:0.1
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ETS_IPS_SERVER_URL
+              value: "http://192.168.20.45:9001"
+            - name: ETS_IPS_CERTIFICATE_DOWNLOAD_URL
+              value: "http://192.168.20.45:9001/v1/cert"
+            - name: ETS_IPS_TOKEN_URL
+              value: "http://192.168.20.45:9001/v1/token"
+            - name: ETS_EPG_ACS_CERTIFICATE_ALIAS
+              value: "ets_acs"
+            - name: SECURITY_PKI_KEYSTORE_FILE_LOCATION
+              value: "/config/keystore.jks"
+            - name: SECURITY_PKI_KEYSTORE_FILE_STORE_PASSWORD
+              value: "wegagen123"
+            - name: SECURITY_PKI_KEYSTORE_FILE_KEY_PASSWORD
+              value: "wegagen123"
+            - name: SECURITY_PKI_KEYSTORE_TYPE
+              value: "JKS"
+            - name: SPRING_REDIS_TIMETOLIVE
+              value: "1000"
+            - name: HOME_LOG
+              value: "/var/log/"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SPRING_PROFILES_ACTIVE
+              value: "docker"
+            - name: ETS_IPS_USERNAME
+              value: "cbe"
+            - name: ETS_IPS_PASSWORD
+              value: "cbe1"
+            - name: ETS_IPS_GRANTTYPE
+              value: "password"
+            - name: THREAD_COUNT
+              value: "5"
+            - name: LOG_LEVEL
+              value: INFO
+          volumeMounts:
+            - name: keystore-volume
+              mountPath: /config/keystore.jks
+              readOnly: true
+            - name: logs-volume
+              mountPath: /var/log
+      volumes:
+        - name: keystore-volume
+          hostPath:
+            path: /mnt/host/keystore/keystore1.jks
+            type: File
+        - name: logs-volume
+          hostPath:
+            path: /mnt/host/logs
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xml-signer-service
+spec:
+  type: NodePort
+  selector:
+    app: xml-signer
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080
