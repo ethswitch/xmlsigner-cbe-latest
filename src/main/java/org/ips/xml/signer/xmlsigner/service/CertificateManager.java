@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,6 +21,7 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class CertificateManager {
@@ -49,46 +51,65 @@ public class CertificateManager {
     }
 
 
-    public CerteficateInformation getCertificate(CerteficateInformation certeficateInformation) throws CertificateException {
-
-        CerteficateInformation cachedCeretficate = this.getFromCache(certeficateInformation.getCertificateSerialNumber());
-        TokenInfo tokenInfo = null;
-        if (cachedCeretficate == null) {
-            logger.info("calling the certeficate api");
-            tokenInfo = tokenGenerationManager.getToken();
-            certeficateInformation.setValidToken(tokenInfo.getAccess_token());
-            certeficateInformation.setCerteficateDownloadUrl(this.certeficateDownloadUrl);
-            CerteficateInformation cert = this.certeficatClientService.downloadCerteficate(certeficateInformation);
-            if (cert != null) {
-                certeficateInformation.setCertificate(cert.getCertificate());
-                certeficateInformation.setX509Certificate(this.convertBase64StringToCerteficate(cert.getCertificate()));
-                cacheRepository.put(certeficateInformation.getCertificateSerialNumber(), certeficateInformation.getX509Certificate());
-                logger.info(cert.toString());
-            }
-        } else {
-            certeficateInformation.setCertificate(cachedCeretficate.getCertificate());
-            certeficateInformation.setX509Certificate(cachedCeretficate.getX509Certificate());
-        }
-        return certeficateInformation;
-
+    @Async("taskExecutor")
+    public CompletableFuture<CerteficateInformation> getCertificateAsync(CerteficateInformation certeficateInformation) {
+        return CompletableFuture.supplyAsync(() -> getFromCache(certeficateInformation.getCertificateSerialNumber()))
+                .thenCompose(cachedCert -> {
+                    if (cachedCert == null) {
+                        logger.info("Certificate not in cache. Fetching from API...");
+                        return tokenGenerationManager.getTokenAsync()
+                                .thenCompose(tokenInfo -> {
+                                    certeficateInformation.setValidToken(tokenInfo.getAccess_token());
+                                    certeficateInformation.setCerteficateDownloadUrl(certeficateDownloadUrl);
+                                    return certeficatClientService.downloadCerteficateAsync(certeficateInformation);
+                                })
+                                .thenApply(cert -> {
+                                    if (cert != null) {
+                                        try {
+                                            X509Certificate x509Cert = convertBase64StringToCerteficate(cert.getCertificate());
+                                            certeficateInformation.setCertificate(cert.getCertificate());
+                                            certeficateInformation.setX509Certificate(x509Cert);
+                                            cacheRepository.put(certeficateInformation.getCertificateSerialNumber(), x509Cert);
+                                            logger.info("Certificate fetched and cached: {}", cert);
+                                        } catch (CertificateException e) {
+                                            throw new RuntimeException("Certificate conversion failed", e);
+                                        }
+                                    }
+                                    return certeficateInformation;
+                                });
+                    } else {
+                        logger.debug("Certificate found in cache");
+                        certeficateInformation.setCertificate(cachedCert.getCertificate());
+                        certeficateInformation.setX509Certificate(cachedCert.getX509Certificate());
+                        return CompletableFuture.completedFuture(certeficateInformation);
+                    }
+                });
     }
-    public RSAPublicKey getPublicKeyForMessageOrginator(CerteficateInformation certeficateInformation) {
-        RSAPublicKey publicKey = null;
-        CerteficateInformation certeficate = null;
-        X509Certificate x509Certificate = null;
-        try {
-            certeficate = this.getCertificate(certeficateInformation);
-            if (certeficate != null) {
-                x509Certificate = certeficate.getX509Certificate();
-                publicKey = (RSAPublicKey) x509Certificate.getPublicKey();
 
-            }
-        } catch (CertificateException e) {
-            throw new RuntimeException(e);
-        }
+    @Async("taskExecutor")
+    public CompletableFuture<RSAPublicKey> getPublicKeyAsync(CerteficateInformation certeficateInformation) {
+        return getCertificateAsync(certeficateInformation)
+                .thenApply(cert -> {
+                    X509Certificate x509Cert = cert.getX509Certificate();
+                    return (RSAPublicKey) x509Cert.getPublicKey();
+                })
+                .exceptionally(ex -> {
+                    logger.error("Failed to get public key", ex);
+                    return null;
+                });
+    }
 
-        return publicKey;
-
+    @Async("taskExecutor")
+    public CompletableFuture<RSAPublicKey> getPublicKeyForMessageOrginator(CerteficateInformation certeficateInformation) {
+        return getCertificateAsync(certeficateInformation)
+                .thenApply(cert -> {
+                    X509Certificate x509Cert = cert.getX509Certificate();
+                    return (RSAPublicKey) x509Cert.getPublicKey();
+                })
+                .exceptionally(ex -> {
+                    logger.error("Failed to retrieve public key", ex);
+                    throw new RuntimeException(ex);
+                });
     }
     public CerteficateInformation getFromCache(String serialNumber) {
         Optional<X509Certificate> s = cacheRepository.get(serialNumber);
@@ -120,5 +141,7 @@ public class CertificateManager {
         }
         return certificate;
     }
+
+
 
 }

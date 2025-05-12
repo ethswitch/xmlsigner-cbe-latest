@@ -14,7 +14,7 @@ public class ThreadPoolConfig {
     @Value("${xml.signer.thread.count:5}")
     private int threadCount;
 
-    @Bean(name = "signerExecutor")
+    @Bean(name = "taskExecutor")
     public Executor signerExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(threadCount);

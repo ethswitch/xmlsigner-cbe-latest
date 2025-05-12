@@ -33,23 +33,17 @@ public class DigestController {
     )
     public CompletableFuture<ResponseEntity<String>> handleXmlRequest(@RequestBody String request) {
         if (!isValidXml(request)) {
-            log.warn("Received invalid XML input");
+            log.warn("Invalid XML input");
             return CompletableFuture.completedFuture(
                     ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid XML input")
             );
         }
 
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                String signedXml = digestService.signDocument(request);
-                signedXml = signedXml.replace("&#xD;", "");
-                return ResponseEntity.ok(signedXml);
-            } catch (Exception ex) {
-                log.error("Error processing XML: {}", ex.getMessage(), ex);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Error processing XML");
-            }
-        }, signerExecutor).orTimeout(5, TimeUnit.SECONDS);
+        return digestService.signDocumentAsync(request)
+                .thenApply(signedXml -> ResponseEntity.ok().body(signedXml))
+                .exceptionally(ex -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Error processing XML"))
+                .orTimeout(5, TimeUnit.SECONDS);
     }
 
     private boolean isValidXml(String xml) {

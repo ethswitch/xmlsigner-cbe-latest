@@ -26,10 +26,9 @@ public class MessageDigestVerificationController {
     @PostMapping(value = "/verify", consumes = MediaType.APPLICATION_XML_VALUE)
     public CompletableFuture<String> verifyXml(@RequestBody String request) {
         if (!isValidXml(request)) {
-            return CompletableFuture.completedFuture(HttpStatus.BAD_REQUEST + " Invalid XML input");
+            return CompletableFuture.completedFuture("Invalid XML input");
         }
-        return digestVerifier.verifyAsync(request)
-                .thenApply(response -> response.replace("&#xD;", ""));
+        return digestVerifier.verifyAsync(request);
     }
 
 

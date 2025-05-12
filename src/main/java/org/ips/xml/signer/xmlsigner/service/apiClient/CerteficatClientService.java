@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.http.*;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import org.springframework.util.MultiValueMap;
@@ -19,6 +20,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.concurrent.CompletableFuture;
 
 
 @Service
@@ -45,29 +47,27 @@ public class CerteficatClientService {
     }
 
 
+    @Async("taskExecutor")
+    public CompletableFuture<CerteficateInformation> downloadCerteficateAsync(CerteficateInformation certeficateInformation) {
+        return CompletableFuture.supplyAsync(() -> {
+            HttpHeaders headers = new HttpHeaders(); // Local to thread
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            headers.add("Authorization", "Bearer " + certeficateInformation.getValidToken());
 
-    public CerteficateInformation downloadCerteficate(CerteficateInformation certeficateInformation) {
-        create();
-//         ContentType
-        logger.info("calling the certeficate api");
-        headers.add("Content-type", "application/x-www-form-urlencoded");
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.add("Authorization", "Bearer " + certeficateInformation.getValidToken());
-        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<CerteficateInformation> responseEntity =
-                restTemplate.exchange(certeficateInformation.getCerteficateDownloadUrl() + "?cert_iss=" +
-                        certeficateInformation.getCertificateIssuer() + "&&cert_sn="
-                        + certeficateInformation.getCertificateSerialNumber(), HttpMethod.GET, httpEntity, CerteficateInformation.class);
-        CerteficateInformation cert = responseEntity.getBody();
-        if (cert != null) {
-            certeficateInformation.setCertificate(cert.getCertificate());
-            logger.info(responseEntity.toString());
+            String url = certeficateInformation.getCerteficateDownloadUrl() +
+                    "?cert_iss=" + certeficateInformation.getCertificateIssuer() +
+                    "&cert_sn=" + certeficateInformation.getCertificateSerialNumber();
 
-        }
-
-
-        return certeficateInformation;
-
+            try {
+                ResponseEntity<CerteficateInformation> response = restTemplate.exchange(
+                        url, HttpMethod.GET, new HttpEntity<>(headers), CerteficateInformation.class
+                );
+                return response.getBody();
+            } catch (Exception e) {
+                logger.error("Certificate download failed: {}", e.getMessage());
+                throw new RuntimeException(e);
+            }
+        });
     }
 
 

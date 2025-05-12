@@ -6,7 +6,7 @@ RUN mkdir -p /var/log && chmod -R 777 /var/log
 RUN rm -rf /usr/local/tomcat/webapps/*
 
 # Copy the WAR file into Tomcat
-COPY build/libs/ips-client-v1-0.1.war /usr/local/tomcat/webapps/xml_signer_v01.war
+COPY build/libs/ips-client-v1-0.1.war /usr/local/tomcat/webapps/xml_signer_threaded_v01.war
 
 # Expose the application port
 EXPOSE 9181

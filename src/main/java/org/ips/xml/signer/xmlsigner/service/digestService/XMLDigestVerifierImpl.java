@@ -4,6 +4,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.xml.security.exceptions.XMLSecurityException;
 import org.ips.xml.signer.xmlsigner.models.CerteficateInformation;
 import org.ips.xml.signer.xmlsigner.service.CertificateManager;
 import org.ips.xml.signer.xmlsigner.utils.XMLFileUtility;
@@ -26,36 +27,64 @@ public class XMLDigestVerifierImpl implements XMLDigestVerifier {
     CertificateManager certificateManager;
 
     private XmlSignUtil signUtil;
-    @Async
-    public CompletableFuture<String> verifyAsync(String xmlRequest) {
 
-        String result = verify(xmlRequest);
-        return CompletableFuture.completedFuture(result);
+    public CompletableFuture<String> verifyAsync(String signedXml) {
+        return CompletableFuture.supplyAsync(() -> {
+            // Step 1: Parse XML into a Document
+            try {
+                return xmlFileUtility.createDocumentFromString(signedXml);
+            } catch (Exception e) {
+                log.error("Failed to parse XML document", e);
+                throw new RuntimeException(e); // Propagate as unchecked exception
+            }
+        }).thenCompose(document -> {
+            // Step 2: Extract certificate info from the Document
+            CerteficateInformation certInfo = xmlFileUtility.parseCerteficateFromDocument(document);
+            // Step 3: Fetch public key asynchronously
+            return certificateManager.getPublicKeyAsync(certInfo)
+                    .thenApply(publicKey -> {
+                        // Step 4: Verify using the Document and PublicKey
+                        try {
+                            boolean isValid = signUtil.verify(document, publicKey);
+                            return String.valueOf(isValid);
+                        } catch (XMLSecurityException e) {
+                            log.error("XML security error during verification", e);
+                            return "false";
+                        } catch (Exception e) {
+                            log.error("Unexpected error during verification", e);
+                            return "false";
+                        }
+                    });
+        }).exceptionally(ex -> {
+            log.error("Verification failed in async chain", ex);
+            return "false";
+        });
     }
     @Autowired
-    public XMLDigestVerifierImpl(XMLFileUtility xmlFileUtility,  CertificateManager certificateManager, XmlSignUtil signUtil) {
+    public XMLDigestVerifierImpl(XMLFileUtility xmlFileUtility, CertificateManager certificateManager, XmlSignUtil signUtil) {
         this.xmlFileUtility = xmlFileUtility;
         this.certificateManager = certificateManager;
         this.signUtil = signUtil;
     }
 
+
     @Override
     public String verify(String signedXml) {
-
         Document document = xmlFileUtility.createDocumentFromString(signedXml);
+        CerteficateInformation certInfo = xmlFileUtility.parseCerteficateFromDocument(document);
 
-        boolean validDocuemnt = false;
-
-        try {
-            CerteficateInformation certeficateInformation = xmlFileUtility.parseCerteficateFromDocument(document);
-            validDocuemnt = signUtil.verify(document,certificateManager.getPublicKeyForMessageOrginator(certeficateInformation));
-
-
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-
-        return String.valueOf(validDocuemnt);
+        // Use async method
+        return certificateManager.getPublicKeyForMessageOrginator(certInfo)
+                .thenApply(publicKey -> {
+                    try {
+                        return signUtil.verify(document, publicKey);
+                    } catch (XMLSecurityException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .thenApply(String::valueOf)
+                .exceptionally(ex -> "false")
+                .join(); // Blocking for illustration; avoid in async flows
     }
 
     @Override

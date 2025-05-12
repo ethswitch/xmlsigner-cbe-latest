@@ -8,6 +8,7 @@ import org.ips.xml.signer.xmlsigner.info.SignatureKeyInfo;
 import org.ips.xml.signer.xmlsigner.utils.XMLFileUtility;
 import org.ips.xml.signer.xmlsigner.utils.XmlSignUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,6 +23,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -40,6 +42,19 @@ public class DigestServiceImpl implements DigestService {
     public DigestServiceImpl(XMLFileUtility xmlFileUtility, XmlSignUtil signUtil) {
         this.xmlFileUtility = xmlFileUtility;
         this.signUtil = signUtil;
+    }
+    @Async("taskExecutor")
+    @Override
+    public CompletableFuture<String> signDocumentAsync(String xmlString) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                String signedXml = signDocument(xmlString);
+                return signedXml.replace("&#xD;", "");
+            } catch (Exception e) {
+                log.error("Error signing XML: {}", e.getMessage());
+                throw new RuntimeException("Signing failed", e);
+            }
+        });
     }
 
     @Override

@@ -1,14 +1,19 @@
 package org.ips.xml.signer.xmlsigner.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.ips.xml.signer.xmlsigner.models.JWTInfo;
 import org.ips.xml.signer.xmlsigner.models.ParticipantCredentialInfo;
 import org.ips.xml.signer.xmlsigner.models.TokenInfo;
 import org.ips.xml.signer.xmlsigner.service.apiClient.TokenGenerationClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.CompletableFuture;
+
 @Service
+@Slf4j
 public class TokenGenerationManager {
 
 
@@ -30,18 +35,26 @@ public class TokenGenerationManager {
         this.jwtManager = jwtManager;
     }
 
-    public TokenInfo getToken() {
+
+    @Async("taskExecutor")
+    public CompletableFuture<TokenInfo> getTokenAsync() {
+        // 1. Prepare credentials
         ParticipantCredentialInfo credentialInfo = new ParticipantCredentialInfo();
-        TokenInfo tokenInfo = null;
         JWTInfo jwtInfo = jwtManager.getJWT();
-        if (jwtInfo != null) {
-            credentialInfo.setUserName(userName);
-            credentialInfo.setPassword(password);
-            credentialInfo.setGrantType(grantType);
-            credentialInfo.setTokenGenerationPath(tokenUrl);
-            credentialInfo.setJwt(jwtInfo.getJwt());
-            tokenInfo = service.generateToken(credentialInfo);
+        if (jwtInfo == null) {
+            return CompletableFuture.failedFuture(new RuntimeException("JWT not available"));
         }
-        return tokenInfo;
+        credentialInfo.setUserName(userName);
+        credentialInfo.setPassword(password);
+        credentialInfo.setGrantType(grantType);
+        credentialInfo.setTokenGenerationPath(tokenUrl);
+        credentialInfo.setJwt(jwtInfo.getJwt());
+
+        // 2. Chain async token generation
+        return service.generateTokenAsync(credentialInfo)
+                .exceptionally(ex -> {
+                    log.error("Token generation failed", ex);
+                    throw new RuntimeException("Token generation failed", ex);
+                });
     }
 }

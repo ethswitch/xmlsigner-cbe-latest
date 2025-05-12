@@ -25,7 +25,22 @@ public class CallBackApiClientService {
     HttpHeaders headers;
 
 
+    @Async("taskExecutor") // Use the thread pool from AsyncConfig
+    public CompletableFuture<Void> sendCallbackAsync(String callbackUrl, String payload) {
+        return CompletableFuture.runAsync(() -> {
+            try {
+                HttpHeaders headers = new HttpHeaders(); // Local to thread
+                headers.setContentType(MediaType.APPLICATION_XML);
+                headers.setAccept(Collections.singletonList(MediaType.APPLICATION_XML));
+                HttpEntity<String> request = new HttpEntity<>(payload, headers);
 
+                ResponseEntity<String> response = restTemplate.postForEntity(callbackUrl, request, String.class);
+                logger.info("Callback sent. Status: {}", response.getStatusCode());
+            } catch (Exception e) {
+                logger.error("Callback failed: {}", e.getMessage());
+            }
+        });
+    }
 
     private String merchantCallBackApiPath;
 
