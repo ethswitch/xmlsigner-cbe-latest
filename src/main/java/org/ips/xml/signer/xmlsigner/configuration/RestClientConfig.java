@@ -46,10 +46,10 @@ public class RestClientConfig {
                 .requestFactory(() -> factory) // Use lambda for Supplier
                 .setConnectTimeout(Duration.ofSeconds(connectTimeoutSeconds))
                 .setReadTimeout(Duration.ofSeconds(readTimeoutSeconds))
-                .additionalInterceptors(
-                        new SanitizingInterceptor(),
-                        new LoggingInterceptor()
-                )
+//                .additionalInterceptors(
+//                        new SanitizingInterceptor(),
+//                        new LoggingInterceptor()
+//                )
                 .errorHandler(new RestTemplateErrorHandler())
                 .build();
     }

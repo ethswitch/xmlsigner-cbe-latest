@@ -3,7 +3,7 @@
     <!-- Pull env variable from environment at runtime -->
     <springProperty name="POD_NAME" source="POD_NAME" defaultValue="unknown-pod"/>
     <springProperty name="HOME_LOG" source="HOME_LOG" defaultValue="/var/log"/>
-
+    <define name="CURRENT_DATE" class="org.ips.xml.signer.xmlsigner.configuration.CurrentDateDefiner"/>
     <!-- STDOUT Appender -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -15,7 +15,7 @@
     <logger name="org.springframework.http.converter.FormHttpMessageConverter" level="WARN"/>
     <!-- File Appender -->
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${HOME_LOG}/app_${POD_NAME}.log</file>
+        <file>${HOME_LOG}/app_${POD_NAME}_${CURRENT_DATE}.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${HOME_LOG}/archived/app_${POD_NAME}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>

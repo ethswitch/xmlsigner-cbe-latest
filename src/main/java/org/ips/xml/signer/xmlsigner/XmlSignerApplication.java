@@ -7,6 +7,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"org.ips.xml.signer.xmlsigner"})
@@ -18,6 +21,8 @@ public class XmlSignerApplication extends SpringBootServletInitializer {
     }
 
     public static void main(String[] args) {
+        String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        System.setProperty("CURRENT_DATE", currentDate);
         SpringApplication.run(XmlSignerApplication.class, args);
     }
 }
