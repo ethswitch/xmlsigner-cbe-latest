@@ -1,5 +1,5 @@
 # Use Tomcat 10.1 with JDK 21 as the base image
-FROM tomcat:10.1.20-jdk21-temurin
+FROM tomcat:10.1.41-jdk21-temurin
 RUN mkdir -p /var/log && chmod -R 777 /var/log
 
 # Remove default webapps from Tomcat
