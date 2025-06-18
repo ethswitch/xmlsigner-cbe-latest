@@ -1,10 +1,14 @@
 package org.ips.xml.signer.xmlsigner.controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.ips.xml.signer.xmlsigner.models.ServiceRequestHeader;
+import org.ips.xml.signer.xmlsigner.models.TokenInfo;
 import org.ips.xml.signer.xmlsigner.service.digestService.XMLDigestVerifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +28,18 @@ public class MessageDigestVerificationController {
     }
 
     @PostMapping(value = "/verify", consumes = MediaType.APPLICATION_XML_VALUE)
-    public String verifyXml(@RequestBody String request) {
-        if (!isValidXml(request)) {
-            return HttpStatus.BAD_REQUEST +"Invalid XML input";
+    public String verifyXml(HttpServletRequest servletRequest, @RequestBody String request) {
+        ServiceRequestHeader requestHeader = new ServiceRequestHeader();
+        ;
+        String accessToken = servletRequest.getHeader("access_token");
+        String certificateString = servletRequest.getHeader("X-Certificate");
+        if (StringUtils.hasText(accessToken)) {
+            requestHeader.setAccess_token(accessToken);
         }
-        String xmlResponse = digestVerifier.verify(request);
+        if (StringUtils.hasText(certificateString)) {
+            requestHeader.setCertificateString(certificateString);
+        }
+        String xmlResponse = digestVerifier.verify(request, requestHeader);
         xmlResponse = xmlResponse.replace("&#xD;", "");
         return xmlResponse;
     }
@@ -41,6 +52,7 @@ public class MessageDigestVerificationController {
         return "evictede succ";
 
     }
+
     // Example XML validation function
     private boolean isValidXml(String xml) {
         return xml != null && xml.trim().startsWith("<?xml");
