@@ -25,6 +25,7 @@ services:
       ETS_IPS_PASSWORD: cbe1
       ETS_IPS_GRANTTYPE: password
       THREAD_COUNT: 5
+      PARTICIPANT_BIC: CBETETAA
     volumes:
       - C:/etswitch/national_payment_gateway/certs/keys/participants/wegagen/keystore1.jks:/config/keystore.jks:ro
       - C:/ethswitch/codes/signer/cbe_signer/xmlsigner-cbe-latest/src/main/resources/logs/:/logs

@@ -23,5 +23,19 @@ public class JWTController {
         this.jwtManager = jwtManager;
     }
 
+    @PostMapping(value = "/jwt")
+    public ResponseEntity<RestResponse> getJwt(@RequestBody String input) {
+
+        ResponseEntity<RestResponse> xmlResponse = null;
+        JWTInfo jwtInfo = null;
+        try {
+            jwtInfo = jwtManager.getJWT();
+            xmlResponse = RestResponse.success("success");
+            xmlResponse.getBody().addData("jwt", jwtInfo);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return xmlResponse;
+    }
 
 }

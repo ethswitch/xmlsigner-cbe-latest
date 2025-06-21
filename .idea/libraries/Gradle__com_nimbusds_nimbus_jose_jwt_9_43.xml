@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.nimbusds:nimbus-jose-jwt:9.43" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="com.nimbusds" artifactId="nimbus-jose-jwt" version="9.43" baseVersion="9.43" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.nimbusds/nimbus-jose-jwt/9.43/cd0e1e6e634e406140eedaa0fec580ec7fff4d88/nimbus-jose-jwt-9.43.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
