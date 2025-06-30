@@ -30,15 +30,16 @@ public class MessageDigestVerificationController {
     @PostMapping(value = "/verify", consumes = MediaType.APPLICATION_XML_VALUE)
     public String verifyXml(HttpServletRequest servletRequest, @RequestBody String request) {
         ServiceRequestHeader requestHeader = new ServiceRequestHeader();
-        ;
         String accessToken = servletRequest.getHeader("access_token");
         String certificateString = servletRequest.getHeader("X-Certificate");
+        String bankBic = servletRequest.getHeader("bank_bic");
         if (StringUtils.hasText(accessToken)) {
             requestHeader.setAccess_token(accessToken);
         }
         if (StringUtils.hasText(certificateString)) {
             requestHeader.setCertificateString(certificateString);
         }
+        requestHeader.setBankBic(bankBic);
         String xmlResponse = digestVerifier.verify(request, requestHeader);
         xmlResponse = xmlResponse.replace("&#xD;", "");
         return xmlResponse;

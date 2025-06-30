@@ -1,8 +1,10 @@
 package org.ips.xml.signer.xmlsigner.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.ips.xml.signer.xmlsigner.configuration.IpsParticipantProperties;
 import org.ips.xml.signer.xmlsigner.exceptions.CertificateCacheException;
 import org.ips.xml.signer.xmlsigner.models.KeyCertificatePair;
+import org.ips.xml.signer.xmlsigner.models.Participant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,6 +20,7 @@ import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Optional;
 import java.util.Map;
@@ -38,18 +41,22 @@ public class CertificateCacheRepository implements CacheRepository {
     @Value("${security.pki.keystore.type}")
     private String keystoreType;
 
-    @Value("${ips.participant.bic}")
-    String bankBic;
+    private IpsParticipantProperties participantProperties;
+
+    private List<Participant> participantList;
 
     @Autowired
     public CertificateCacheRepository(@Value("${security.pki.keystore.file.location}") String keystorePath,
                                       @Value("${security.pki.keystore.file.store.password}") String keystorePassword,
-                                      @Value("${spring.redis.timeToLive}") long ttl) {
+                                      @Value("${spring.redis.timeToLive}") long ttl,
+                                      IpsParticipantProperties participantProperties) {
         this.keystorePath = keystorePath;
         this.keystorePassword = keystorePassword;
         this.ttl = ttl;
         this.certificateCache = new ConcurrentHashMap<>();
         this.pairCache = new ConcurrentHashMap<>();
+        this.participantProperties = participantProperties;
+        this.participantList = participantProperties.getParticipants();
     }
 
     /**
@@ -81,10 +88,16 @@ public class CertificateCacheRepository implements CacheRepository {
 
             // Retrieve the private key
             log.info("Keystore provider: " + keystore.getProvider().getName());
-            KeyCertificatePair keyCertificatePair = this.getPrivateKeySafe(keystore, bankBic, keystorePassword.toCharArray());
-            assert keyCertificatePair != null;
-            pairCache.put("keys", keyCertificatePair);
-            cacheLoaded = true;
+            if (!participantList.isEmpty()) {
+                participantList.forEach(p -> {
+                    KeyCertificatePair keyCertificatePair =
+                            this.getPrivateKeySafe(keystore, p.getBic(), keystorePassword.toCharArray());
+                    if (keyCertificatePair != null) {
+                        pairCache.put(p.getBic() + "_keys", keyCertificatePair);
+                        cacheLoaded = true;
+                    }
+                });
+            }
         } catch (Exception e) {
             cacheLoaded = false;
             log.error("Error while loading certificates from keystore", e);
@@ -156,7 +169,7 @@ public class CertificateCacheRepository implements CacheRepository {
     /**
      * Scheduled task to refresh the cache at fixed intervals
      */
-    @Scheduled(fixedRateString = "${certificate.cache.refreshInterval:10000}")
+    @Scheduled(fixedRateString = "${certificate.cache.refreshInterval:1000000}")
     public void refreshCache() {
         log.debug(" trying to refresh the cache");
         loadCertificatesFromKeystore();
@@ -171,20 +184,22 @@ public class CertificateCacheRepository implements CacheRepository {
         }
     }
 
-    public Optional<PrivateKey> getBankPrivatekey() {
+    public Optional<PrivateKey> getBankPrivatekey(String bankBic) {
         if (!cacheLoaded) {
             refreshCache();
         } else {
-            log.info(" the file is already loaded ....... trying to bet the bank private key and the catched size is " + certificateCache.size());
+            log.info(" the file is already loaded ....... " +
+                    "trying to get the bank private key and the cache size is "
+                    + certificateCache.size());
         }
-        return Optional.ofNullable(this.pairCache.get("keys").getPrivateKey());
+        return Optional.ofNullable(this.pairCache.get(bankBic + "_keys").getPrivateKey());
     }
 
-    public Optional<X509Certificate> getBankCertificate() {
+    public Optional<X509Certificate> getBankCertificate(String bankBic) {
         if (!cacheLoaded) {
             refreshCache();
         }
-        return Optional.ofNullable(this.pairCache.get("keys").getCertificate());
+        return Optional.ofNullable(this.pairCache.get(bankBic + "_keys").getCertificate());
     }
 
     private KeyCertificatePair getPrivateKeySafe(KeyStore keystore, String aliasInput, char[] password) {

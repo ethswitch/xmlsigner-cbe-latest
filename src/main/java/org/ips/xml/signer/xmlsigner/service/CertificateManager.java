@@ -3,6 +3,7 @@ package org.ips.xml.signer.xmlsigner.service;
 import org.ips.xml.signer.xmlsigner.models.CerteficateInformation;
 import org.ips.xml.signer.xmlsigner.models.ServiceRequestHeader;
 import org.ips.xml.signer.xmlsigner.models.TokenInfo;
+import org.ips.xml.signer.xmlsigner.models.TokenResponse;
 import org.ips.xml.signer.xmlsigner.repository.CacheRepository;
 import org.ips.xml.signer.xmlsigner.repository.CertificateCacheRepository;
 import org.ips.xml.signer.xmlsigner.service.apiClient.CerteficatClientService;
@@ -55,35 +56,41 @@ public class CertificateManager {
                                                  ServiceRequestHeader serviceRequestHeader) throws CertificateException {
 
         CerteficateInformation cachedCeretficate = this.getFromCache(certeficateInformation.getCertificateSerialNumber());
+        try {
 
-        if (cachedCeretficate == null) {
-            logger.info(" no cached certificate found and trying to download certificate");
-            logger.info("calling the certeficate api");
-            boolean isTokenMissing = serviceRequestHeader == null || !StringUtils.hasText(serviceRequestHeader.getAccess_token());
-            TokenInfo tokenInfo = null;
-            if (isTokenMissing) {
-                logger.info(" token is not provided by service client and generating new one");
-                tokenInfo = tokenGenerationManager.getToken();
-            }
 
-            certeficateInformation.setValidToken(tokenInfo.getAccess_token());
-            certeficateInformation.setCerteficateDownloadUrl(this.certeficateDownloadUrl);
-            CerteficateInformation cert = this.certeficatClientService.downloadCerteficate(certeficateInformation);
-            if (cert != null) {
-                certeficateInformation.setCertificate(cert.getCertificate());
-                certeficateInformation.setX509Certificate(this.convertBase64StringToCerteficate(cert.getCertificate()));
-                cacheRepository.put(certeficateInformation.getCertificateSerialNumber(), certeficateInformation.getX509Certificate());
+            if (cachedCeretficate == null) {
+                logger.info(" no cached certificate found and trying to download certificate");
+                logger.info("calling the certeficate api");
+                boolean isTokenMissing = serviceRequestHeader == null || !StringUtils.hasText(serviceRequestHeader.getAccess_token());
+                TokenResponse tokenInfo = null;
+                if (isTokenMissing) {
+                    logger.info(" token is not provided by service client and generating new one");
+                    assert serviceRequestHeader != null;
+                    tokenInfo = tokenGenerationManager.getToken(serviceRequestHeader.getBankBic());
+                }
+
+                certeficateInformation.setValidToken(tokenInfo.getAccess_token());
+                certeficateInformation.setCerteficateDownloadUrl(this.certeficateDownloadUrl);
+                CerteficateInformation cert = this.certeficatClientService.downloadCerteficate(certeficateInformation);
+                if (cert != null) {
+                    certeficateInformation.setCertificate(cert.getCertificate());
+                    certeficateInformation.setX509Certificate(this.convertBase64StringToCerteficate(cert.getCertificate()));
+                    cacheRepository.put(certeficateInformation.getCertificateSerialNumber(), certeficateInformation.getX509Certificate());
+                }
+            } else {
+                certeficateInformation.setCertificate(cachedCeretficate.getCertificate());
+                certeficateInformation.setX509Certificate(cachedCeretficate.getX509Certificate());
             }
-        } else {
-            certeficateInformation.setCertificate(cachedCeretficate.getCertificate());
-            certeficateInformation.setX509Certificate(cachedCeretficate.getX509Certificate());
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
         }
         return certeficateInformation;
 
     }
 
     public RSAPublicKey getPublicKeyForMessageOrginator(CerteficateInformation certificateInfo,
-                                                         ServiceRequestHeader requestHeader) {
+                                                        ServiceRequestHeader requestHeader) {
         try {
             CerteficateInformation resolvedCertInfo = resolveCertificate(certificateInfo, requestHeader);
             if (resolvedCertInfo == null || resolvedCertInfo.getX509Certificate() == null) {

@@ -1,0 +1,49 @@
+server:
+  port: 9181
+  tomcat:
+    max-swallow-size: 5MB
+    max-threads: 200
+    accept-count: 100
+    connection-timeout: 30000
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  profiles:
+    active: dev
+
+remote:
+  ftp:
+    server:
+      file:
+        location:
+          temporary: temporary
+      session:
+        timeout:
+          time: 10000
+      channel:
+        timeout:
+          time: 5000
+
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    org:
+      apache:
+        http:
+          wire: OFF
+          headers: OFF
+  current-date: ${CURRENT_DATE}
+
+token:
+  converter:
+    principal-attribute: preferred_username
+    resource-id: demo-app
+
+ets:
+  ips:
+    certificate:
+      issuer: test
+      serialNumber: test

@@ -17,4 +17,6 @@ public class CerteficateInformation {
     private String certeficateDownloadUrl;
 
     private String validToken;
+
+    private String bankBic;
 }

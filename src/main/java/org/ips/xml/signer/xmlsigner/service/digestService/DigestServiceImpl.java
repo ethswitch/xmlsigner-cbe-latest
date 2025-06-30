@@ -43,16 +43,16 @@ public class DigestServiceImpl implements DigestService {
     }
 
     @Override
-    public String signDocument(String xmlString) {
+    public String signDocument(String xmlString,String bankBic) {
 
         String signedXml = null;
         Document document = xmlFileUtility.createDocumentFromString(xmlString);
         Document signedDocument = null;
         SignatureInfo signatureInfo = xmlFileUtility.buildKeySignatureInfo();
-        SignatureKeyInfo signatureKeyInfo = xmlFileUtility.buildSignaturePrivateKeyInfo();
+        SignatureKeyInfo signatureKeyInfo = xmlFileUtility.buildSignaturePrivateKeyInfo(bankBic);
 
         try {
-            signedDocument = signUtil.sign(document, signatureInfo, signatureKeyInfo);
+            signedDocument = signUtil.sign(document, signatureInfo, signatureKeyInfo,bankBic);
             signedXml = convertDocumentToString(signedDocument);
 
         } catch (Exception e) {

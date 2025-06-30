@@ -6,12 +6,16 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
 @SpringBootApplication
+@EnableScheduling
+@EnableRetry
 @ComponentScan(basePackages = {"org.ips.xml.signer.xmlsigner"})
 public class XmlSignerApplication extends SpringBootServletInitializer {
 

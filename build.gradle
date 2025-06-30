@@ -33,6 +33,8 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude group: 'org.glassfish', module: 'jakarta.el'
     }
+    implementation 'org.springframework.retry:spring-retry'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
     implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
@@ -53,7 +55,9 @@ dependencies {
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
 
     implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
-
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'io.lettuce:lettuce-core' // Optional, Spring Boot pulls it by default
+    implementation 'redis.clients:jedis'
 
     implementation 'com.nimbusds:nimbus-jose-jwt:9.43'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
@@ -68,6 +72,8 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
     testImplementation 'org.slf4j:slf4j-api:2.0.12'
+
+    testImplementation 'it.ozimov:embedded-redis:0.7.3'
 }
 
 tasks.named('test') {

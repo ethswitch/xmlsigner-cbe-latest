@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JWTManager {
-    @Value("${ips.participant.bic}")
-    private String participantBic;
 
     private JwtSigningUtils jwtSigningUtils;
 
@@ -18,11 +16,11 @@ public class JWTManager {
         this.jwtSigningUtils = jwtSigningUtils;
     }
 
-    public JWTInfo getJWT() {
+    public JWTInfo getJWT(String bankBic) {
         JWTInfo jwtInfo = new JWTInfo();
         try {
-            jwtInfo.setParticipantBic(participantBic);
-            jwtSigningUtils.generateJwt(jwtInfo);
+            jwtInfo.setParticipantBic(bankBic);
+            jwtSigningUtils.generateJwt(jwtInfo,bankBic);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

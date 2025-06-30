@@ -6,4 +6,5 @@ import lombok.Data;
 public class ServiceRequestHeader {
     private String access_token;
     private String certificateString;
+    private String bankBic;
 }

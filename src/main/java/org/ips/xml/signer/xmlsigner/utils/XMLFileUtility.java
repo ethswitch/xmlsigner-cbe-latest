@@ -63,8 +63,8 @@ public class XMLFileUtility {
 
     }
 
-    public SignatureKeyInfo buildSignaturePrivateKeyInfo() {
-        Optional<PrivateKey> privateKeyOpt=this.cacheRepository.getBankPrivatekey();
+    public SignatureKeyInfo buildSignaturePrivateKeyInfo(String bankBic) {
+        Optional<PrivateKey> privateKeyOpt=this.cacheRepository.getBankPrivatekey(bankBic);
         PrivateKey privateKey;
         privateKey = privateKeyOpt.orElse(null);
         return SignatureKeyInfo.builder().privateKey(privateKey).build();

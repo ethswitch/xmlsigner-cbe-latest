@@ -95,7 +95,8 @@ public class XmlSignUtil {
      * @throws XMLSecurityException
      * @throws XPathExpressionException
      */
-    public Document sign(Document document, SignatureInfo signatureInfo, SignatureKeyInfo signatureKeyInfo) throws XMLSecurityException, XPathExpressionException {
+    public Document sign(Document document, SignatureInfo signatureInfo, SignatureKeyInfo signatureKeyInfo,
+            String bankBic) throws XMLSecurityException, XPathExpressionException {
         final NodeList bahNodes = document.getElementsByTagNameNS(BAH_NAME.getNamespaceURI(), BAH_NAME.getLocalPart());
         final NodeList rltdNodes = document.getElementsByTagNameNS(RLTD_TAG_NAME.getNamespaceURI(), RLTD_TAG_NAME.getLocalPart());
         if (bahNodes.getLength() == 0) {
@@ -138,7 +139,7 @@ public class XmlSignUtil {
         KeyInfo ki = xmlSignature.getKeyInfo();
 
         ki.add(new X509Data(document));
-        Optional<X509Certificate> optionalBankCertificate= cacheRepository.getBankCertificate();
+        Optional<X509Certificate> optionalBankCertificate= cacheRepository.getBankCertificate(bankBic);
         if(optionalBankCertificate.isPresent()) {
             X509Certificate key = optionalBankCertificate.get();
             BigInteger serialNumber = key.getSerialNumber();

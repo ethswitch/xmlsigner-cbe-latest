@@ -1,0 +1,72 @@
+ets:
+  epg:
+    acs:
+      certificate:
+        alias: ets_acs
+  ips:
+    certificate:
+      download:
+        url: ${ets.ips.server.url}/v1/cert
+    grantType: password
+    server:
+      url: http://192.168.20.45:9001
+    token:
+      url: ${ets.ips.server.url}/v1/token
+ips:
+  participants:
+    -   bic: CBETETAA
+        grantType: password
+        password: cbe1
+        refreshGrantType: refresh_token
+        userName: cbe
+    -   bic: NIBETAA
+        grantType: password
+        password: nibpass
+        refreshGrantType: refresh_token
+        userName: nib
+logging:
+  level:
+    httpclient:
+      wire: INFO
+    org:
+      apache:
+        http: INFO
+      springframework:
+        web: INFO
+        web.client.RestTemplate: INFO
+security:
+  pki:
+    keystore:
+      file:
+        key:
+          password: wegagen123
+        location: C:/etswitch/national_payment_gateway/certs/keys/participants/wegagen/keystore1.jks
+        store:
+          password: wegagen123
+      type: JKS
+spring:
+  redis:
+    host: localhost
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 5
+        max-wait: 1000
+        min-idle: 1
+    password: test@123
+    port: 6379
+    timeToLive: 1000
+    timeout: 60000
+token:
+  refresh:
+    fixedDelay: 6000000000
+retry:
+  maxAttempts: 3
+  delay: 2000
+xml:
+  signer:
+    deployment:
+      pod:
+        name: ${POD_NAME}
+    thread:
+      count: ${THREAD_COUNT}

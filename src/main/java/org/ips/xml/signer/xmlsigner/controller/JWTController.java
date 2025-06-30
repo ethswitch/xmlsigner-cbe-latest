@@ -24,12 +24,12 @@ public class JWTController {
     }
 
     @PostMapping(value = "/jwt")
-    public ResponseEntity<RestResponse> getJwt(@RequestBody String input) {
+    public ResponseEntity<RestResponse> getJwt(@RequestBody String bankBic) {
 
         ResponseEntity<RestResponse> xmlResponse = null;
         JWTInfo jwtInfo = null;
         try {
-            jwtInfo = jwtManager.getJWT();
+            jwtInfo = jwtManager.getJWT(bankBic);
             xmlResponse = RestResponse.success("success");
             xmlResponse.getBody().addData("jwt", jwtInfo);
         } catch (Exception e) {

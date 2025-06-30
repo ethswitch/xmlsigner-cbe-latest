@@ -28,9 +28,9 @@ public class JwtSigningUtils {
         this.certeficateAndKeysUtility = certeficateAndKeysUtility;
     }
 
-    public JWTInfo generateJwt(JWTInfo jwtInfo) throws NoSuchAlgorithmException, Exception {
-        Optional<PrivateKey> optionalPrivateKey=certeficateAndKeysUtility.getBankPrivatekey();
-        Optional<X509Certificate> optionalX509Certificate=certeficateAndKeysUtility.getBankCertificate();
+    public JWTInfo generateJwt(JWTInfo jwtInfo,String bankBic) throws NoSuchAlgorithmException, Exception {
+        Optional<PrivateKey> optionalPrivateKey=certeficateAndKeysUtility.getBankPrivatekey(bankBic);
+        Optional<X509Certificate> optionalX509Certificate=certeficateAndKeysUtility.getBankCertificate(bankBic);
         PrivateKey privateKey =optionalPrivateKey.isPresent()?optionalPrivateKey.get():null;
         Algorithm algorithm = Algorithm.RSA256((RSAKey) privateKey);
         X509Certificate key = optionalX509Certificate.isPresent()? optionalX509Certificate.get() : null;
