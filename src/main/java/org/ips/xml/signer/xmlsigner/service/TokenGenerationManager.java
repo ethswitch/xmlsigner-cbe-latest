@@ -30,7 +30,7 @@ public class TokenGenerationManager {
     private TokenCacheService cacheService;
 
 
-    private static final long TOLERANCE_MILLIS = 60_000; // 1
+    private static final long TOLERANCE_MILLIS = 20; // 1
 
     @Autowired
     public TokenGenerationManager(TokenGenerationClientService service,
@@ -75,12 +75,12 @@ public class TokenGenerationManager {
 
     public TokenResponse getToken(String clientBic ) throws Exception {
         TokenInfo token = cacheService.getToken(clientBic);
-
-        if (token != null && token.getExpires_in() - System.currentTimeMillis() > TOLERANCE_MILLIS) {
+        Long CURRENT_TIME_SECONDS = Math.divideExact(System.currentTimeMillis(),1000);
+        if (token != null && token.getExpires_in() > TOLERANCE_MILLIS) {
             return new TokenResponse(token.getAccess_token());
         }
 
-        boolean canRefresh = token != null && token.getRefresh_expires_in() - System.currentTimeMillis() > TOLERANCE_MILLIS;
+        boolean canRefresh = token != null && token.getRefresh_expires_in() > TOLERANCE_MILLIS;
 
         if (canRefresh) {
             token = this.refreshToken(token.getRefresh_token(),clientBic);

@@ -50,7 +50,7 @@ public class TokenRefresherService {
 
             long remainingAccessTokenTime = redisTemplate.getExpire(key, java.util.concurrent.TimeUnit.SECONDS);
 
-            if (remainingAccessTokenTime < 0) continue;
+            if (remainingAccessTokenTime >ACCESS_TOKEN_TOLERANCE) continue;
 
             if (remainingAccessTokenTime <= ACCESS_TOKEN_TOLERANCE) {
                 try {

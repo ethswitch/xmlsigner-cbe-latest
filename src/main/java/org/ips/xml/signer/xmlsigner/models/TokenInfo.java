@@ -34,5 +34,9 @@ public class TokenInfo implements Serializable {
     @JsonProperty("scope")
     private String scope;
 
+    @JsonProperty("createdTm")
+
+    private String createdTime;
+
 
 }
