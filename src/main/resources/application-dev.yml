@@ -14,7 +14,7 @@ ets:
       url: ${ets.ips.server.url}/v1/token
 ips:
   participants:
-    -   bic: CBETETAA
+    -   bic: ENBGETAA
         grantType: password
         password: cbe1
         refreshGrantType: refresh_token
@@ -39,10 +39,10 @@ security:
     keystore:
       file:
         key:
-          password: wegagen123
-        location: C:/etswitch/national_payment_gateway/certs/keys/participants/wegagen/keystore1.jks
+          password: Test1@123
+        location: C:/etswitch/national_payment_gateway/certs/keys/participants/wegagen/nbg_keys/nbg_keys/keystore.jks
         store:
-          password: wegagen123
+          password: Test1@123
       type: JKS
 spring:
   redis:

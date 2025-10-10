@@ -2,14 +2,12 @@ package org.ips.xml.signer.xmlsigner.service.token;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ips.xml.signer.xmlsigner.models.TokenInfo;
-import org.ips.xml.signer.xmlsigner.models.TokenInfo;
 import org.ips.xml.signer.xmlsigner.utils.DateUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.Calendar;
+
 
 
 @Service

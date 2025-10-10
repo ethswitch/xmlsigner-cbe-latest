@@ -14,9 +14,16 @@ ets:
     token:
       url: ${ETS_IPS_TOKEN_URL}
     userName: ${ETS_IPS_USERNAME}
+
 ips:
   participant:
     bic: ${PARTICIPANT_BIC}
+  participants:
+    -   bic: ENBGETAA
+        grantType: password
+        password: nbg
+        refreshGrantType: refresh_token
+        userName: nbg
 logging:
   level:
     org:
@@ -25,6 +32,7 @@ logging:
       springframework:
         web: INFO
         web.client.RestTemplate: INFO
+
 security:
   pki:
     keystore:
@@ -35,9 +43,29 @@ security:
         store:
           password: ${SECURITY_PKI_KEYSTORE_FILE_STORE_PASSWORD}
       type: ${SECURITY_PKI_KEYSTORE_TYPE}
+
 spring:
   redis:
-    timeToLive: ${SPRING_REDIS_TIMETOLIVE}
+    host: ${SPRING_REDIS_HOST:redis}   # <---- default to 'redis' service inside Docker
+    port: ${SPRING_REDIS_PORT:6379}    # <---- default Redis port
+    password: ${SPRING_REDIS_PASSWORD:} # <---- optional, empty by default
+    timeToLive: ${SPRING_REDIS_TIMETOLIVE:1000}
+    timeout: 60000
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 5
+        max-wait: 1000
+        min-idle: 1
+
+token:
+  refresh:
+    fixedDelay: 6000000000
+
+retry:
+  maxAttempts: 3
+  delay: 2000
+
 xml:
   signer:
     deployment:

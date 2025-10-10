@@ -29,8 +29,8 @@ services:
       THREAD_COUNT: 5
       PARTICIPANT_BIC: ENBGETAA
     volumes:
-      - C:/etswitch/national_payment_gateway/certs/keys/participants/wegagen/nbg_keys/nbg_keys/keystore.jks:/config/keystore.jks:ro
-      - C:/ethswitch/codes/signer/cbe_signer/xmlsigner-cbe-latest/src/main/resources/logs/:/logs
+      - /opt/ethswitch/keys/keystore.jks:/config/keystore.jks:ro
+      - /var/log/logs/:/logs
     depends_on:
       - redis                          # <---- ensure app waits for Redis
     networks:

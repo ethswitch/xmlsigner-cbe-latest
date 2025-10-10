@@ -1,6 +1,7 @@
 package org.ips.xml.signer.xmlsigner.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.ips.xml.signer.xmlsigner.messages.OpenConnectResponse;
 import org.ips.xml.signer.xmlsigner.models.ServiceRequestHeader;
 import org.ips.xml.signer.xmlsigner.service.digestService.DigestService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 
+@Slf4j
 @RequestMapping("/api")
 @RestController()
 public class DigestController {
@@ -58,6 +60,7 @@ public class DigestController {
         if (StringUtils.hasText(certificateString)) {
             requestHeader.setCertificateString(certificateString);
         }
+        log.info(" the bank bic information is: {}",bankBic);
 
         // Securely parse XML inside digestService.signDocument()
         String xmlResponse = digestService.signDocument(request,bankBic);

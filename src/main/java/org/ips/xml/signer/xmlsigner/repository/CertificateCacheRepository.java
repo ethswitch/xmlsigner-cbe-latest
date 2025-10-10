@@ -92,10 +92,13 @@ public class CertificateCacheRepository implements CacheRepository {
                 participantList.forEach(p -> {
                     KeyCertificatePair keyCertificatePair =
                             this.getPrivateKeySafe(keystore, p.getBic(), keystorePassword.toCharArray());
+
                     if (keyCertificatePair != null) {
                         pairCache.put(p.getBic() + "_keys", keyCertificatePair);
                         cacheLoaded = true;
+                        log.info(" found the private key for :{} and store it with key value : {}",p.getBic(),p.getBic() + "_keys");
                     }
+                    log.info(" found no private key for :{} ",p.getBic());
                 });
             }
         } catch (Exception e) {

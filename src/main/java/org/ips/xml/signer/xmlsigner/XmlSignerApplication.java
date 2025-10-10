@@ -3,20 +3,18 @@ package org.ips.xml.signer.xmlsigner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
 @SpringBootApplication
 @EnableScheduling
 @EnableRetry
-@ComponentScan(basePackages = {"org.ips.xml.signer.xmlsigner"})
+// REMOVE this line or modify it:
+// @ComponentScan(basePackages = {"org.ips.xml.signer.xmlsigner"})
 public class XmlSignerApplication extends SpringBootServletInitializer {
 
     @Override
@@ -30,4 +28,3 @@ public class XmlSignerApplication extends SpringBootServletInitializer {
         SpringApplication.run(XmlSignerApplication.class, args);
     }
 }
-

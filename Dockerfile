@@ -9,11 +9,11 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 COPY build/libs/ips-client-v1-0.1.war /usr/local/tomcat/webapps/xml_signer_v01.war
 
 # Expose the application port
-EXPOSE 9181
+EXPOSE 8080
 
 # Start Tomcat with runtime POD_NAME and logging path
 ENTRYPOINT ["sh", "-c", "catalina.sh run \
-  -Dserver.port=9181 \
+  -Dserver.port=8080 \
   -Djavax.net.ssl.keyStore=/config/keystore.jks \
   -Djavax.net.ssl.keyStorePassword=changeit \
   -DPOD_NAME=$POD_NAME \
