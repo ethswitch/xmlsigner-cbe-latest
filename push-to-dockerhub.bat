@@ -4,9 +4,9 @@ setlocal enabledelayedexpansion
 :: Configuration
 set DOCKER_USERNAME=take2018
 set DOCKER_IMAGE_NAME=take2018/xml-signer-app
-set DOCKER_IMAGE_TAG=0.1
+set DOCKER_IMAGE_TAG=v0.0.1
 
-set FULL_IMAGE_NAME=take2018/xml-signer-app:0.1
+set FULL_IMAGE_NAME=take2018/xml-signer-app:v0.0.1
 
 echo Logging into Docker Hub...
 docker login -u %DOCKER_USERNAME% -p ILtektesf701389

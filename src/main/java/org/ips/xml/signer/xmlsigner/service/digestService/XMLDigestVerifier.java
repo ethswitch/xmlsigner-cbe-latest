@@ -5,7 +5,7 @@ import org.ips.xml.signer.xmlsigner.models.TokenInfo;
 
 public interface XMLDigestVerifier {
 
-    public String verify(String signedXml, ServiceRequestHeader serviceRequestHeader);
+    public String verify(String signedXml, ServiceRequestHeader serviceRequestHeader) throws Exception;
 
     void clearCache();
 }

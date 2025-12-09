@@ -4,6 +4,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+import org.ips.xml.signer.xmlsigner.exceptions.DataException;
+import org.ips.xml.signer.xmlsigner.exceptions.GlobalExceptionHandler;
 import org.ips.xml.signer.xmlsigner.models.CerteficateInformation;
 import org.ips.xml.signer.xmlsigner.models.ServiceRequestHeader;
 import org.ips.xml.signer.xmlsigner.models.TokenInfo;
@@ -34,7 +36,7 @@ public class XMLDigestVerifierImpl implements XMLDigestVerifier {
     }
 
     @Override
-    public String verify(String signedXml, ServiceRequestHeader serviceRequestHeader) {
+    public String verify(String signedXml, ServiceRequestHeader serviceRequestHeader) throws Exception {
 
         Document document = xmlFileUtility.createDocumentFromString(signedXml);
 
@@ -49,6 +51,7 @@ public class XMLDigestVerifierImpl implements XMLDigestVerifier {
 
         } catch (Exception e) {
             log.error(e.getMessage());
+            throw new Exception(e.getMessage());
         }
 
         return String.valueOf(validDocuemnt);
