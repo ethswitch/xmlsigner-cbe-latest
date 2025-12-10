@@ -1,5 +1,5 @@
 # Use Tomcat 10.1 with JDK 21 as the base image
-FROM tomcat:10.1.20-jdk21-temurin
+FROM tomcat:10.1.50-jdk21-temurin
 
 # Create log directory and set permissions
 RUN mkdir -p /var/log && chmod -R 777 /var/log
